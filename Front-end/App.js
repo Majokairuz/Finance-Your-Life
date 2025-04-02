@@ -57,7 +57,7 @@ export default function App() {
         />
         <Stack.Screen
           name="Dashboard"
-          component={UserDashboard}
+          component={User_Dashboard}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

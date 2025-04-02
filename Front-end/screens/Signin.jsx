@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Button, StyleSheet, Alert, ScrollView } from 'react-native'
+import { View, Button, StyleSheet, Alert, ScrollView, Image } from 'react-native'
 import axios from 'axios'
 import { useNavigation } from '@react-navigation/native'
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -225,4 +225,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export  {SignIn};
+export  default SignIn;

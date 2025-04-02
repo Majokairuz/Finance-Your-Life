@@ -2,7 +2,6 @@
 import {View,StyleSheet,Button,Image,} from "react-native";
 import { useState } from "react";
 import { NavigationContainer } from '@react-navigation/native';
-
 // Input
 import Secundary from "../components/Inputs/Secundary";
 // Butones
@@ -19,8 +18,8 @@ import Facebook from "../assets/Facebook.png";
 import O from "../assets/O.png";
 
 const Login = ({navigation}) => {
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   return (
     <View style={styles.container}>
@@ -157,5 +156,5 @@ const styles = StyleSheet.create({
   },
 });
 
-export {Login};
+export default Login;
 

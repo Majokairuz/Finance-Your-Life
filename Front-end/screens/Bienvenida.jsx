@@ -44,4 +44,4 @@ const styles = StyleSheet.create({
 
     }
 });
-export  {Welcome};
+export default Welcome;

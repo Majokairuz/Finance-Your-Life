@@ -2,12 +2,17 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Calendar } from "react-native-calendars";
 import H1 from "../../components/Titles/H1";
+import H3 from "../../components/Titles/H3";
+import Quarter from "../../components/Botones/Quarter";
+import Fifth from "../../components/Botones/Fifth";
+
+
 const Calendario = () => {
     const [selected, setSelected] = useState("");
 
     return (
         <View style={styles.container}>
-            <H1 texto="Calendario" color="#FFFFFF" textAlign="center"/>
+            <H1 texto="Calendario" color="#FFFFFF" textAlign="center" />
             <Calendar
                 style={styles.calendar}
                 theme={{
@@ -31,8 +36,19 @@ const Calendario = () => {
                 }}
                 onDayPress={(day) => setSelected(day.dateString)}
             />
-            {selected ? <Text style={styles.selectedText}>Seleccionaste: {selected}</Text> : null}
+            {/* {selected ? <Text style={styles.selectedText}>Seleccionaste: {selected}</Text> : null} */}
+
+            <H3 texto="Movimientos Diarios" color="#FFFFFF" />
+            <Quarter texto="$Ahorro y Fecha" style={styles.boton}  />
+            <Fifth texto="$ahorro y fecha" style={styles.boton}/>
+
+
+            
+
+
         </View>
+
+
     );
 };
 
@@ -47,32 +63,41 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'flex-start',
         // alignItems: 'center', 
-        textAlign:'center',
+        textAlign: 'center',
         gap: 15,
         display: 'flex'
-
-
     },
+
     title: {
         fontSize: 40,
         color: "#ffffff",
         fontWeight: "bold",
         marginBottom: 15,
     },
-    calendar: {
-        paddingTop: 20, 
-        paddingBottom: 20, 
-        background: 'white', 
-        borderRadius: 20,
-        marginLeft:10,
-        marginRight:10,
 
+    calendar: {
+        paddingTop: 20,
+        paddingBottom: 20,
+        background: 'white',
+        borderRadius: 20,
+        marginLeft: 10,
+        marginRight: 10,
     },
+
     selectedText: {
         marginTop: 1,
         fontSize: 16,
         color: "#ffffff",
     },
+
+    boton:{
+        marginLeft:10,
+        marginRight:10,
+    },
+
+
 });
+
+
 
 export default Calendario;

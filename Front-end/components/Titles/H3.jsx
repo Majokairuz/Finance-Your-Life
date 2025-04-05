@@ -1,15 +1,15 @@
 import { Text, StyleSheet } from 'react-native';
 
-const H3 = ({texto})=> {
+const H3 = ({texto,color})=> {
     return(
-        <Text style={styles.titulo_tres}>{texto}</Text>
+        <Text style={[styles.titulo_tres,{color}]}>{texto}</Text>
     )
 }
 const styles = StyleSheet.create({
     titulo_tres: {
         
         fontSize: 20, 
-        fontFamily: 'Poppins_500Medium', 
+        fontFamily: 'PoppinsSemiBold', 
         fontWeight: '500', 
         wordWrap: 'break-word'
     }

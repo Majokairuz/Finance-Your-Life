@@ -63,7 +63,7 @@ export default function App() {
     //     />
     //   </Stack.Navigator>
     // </NavigationContainer>
-    //  <Calendario/>
-    <Navbar/>
+     <Calendario/>
+    // <Navbar/>
   );
 }

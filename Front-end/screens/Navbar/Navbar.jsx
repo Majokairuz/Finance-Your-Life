@@ -1,41 +1,35 @@
 import { TouchableOpacity,Text,View,StyleSheet,Image } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
+
 // iconos
-import homeIcon from "../../assets/home.svg";
+import { Ionicons } from "@expo/vector-icons";
+import homeIcon from "../../assets/home.png";
 import MetricsIcon from "../../assets/bar-chart-outline.png";
 import calendarIcon from "../../assets/calendar-outline.png";
 import profileIcon from "../../assets/person-outline.png";
-import Logo from '../../assets/Logo.png'
+
 
 const Navbar = ({navigation}) => {
     
     return (
-        <View style={styles.container}>
-            <Image source={Logo} width={24} height={24}></Image>
-            <View style={styles.navbar}>
+        <View style={styles.navbar}>
                 <TouchableOpacity>
-                    <Image source={homeIcon} width={40}></Image>
+                    <Ionicons name="home-outline" size={40} color="#5271FF" onPress={() => navigation.navigate('Dashboard')}/>
                 </TouchableOpacity>
                 <TouchableOpacity>
-                    <Image source={MetricsIcon} width={40}></Image>
+                    <Ionicons name="bar-chart-outline" size={40} color="#5271FF" />
                 </TouchableOpacity>
                 <TouchableOpacity>
-                    <Image source={calendarIcon}  width={40}></Image>
+                    <Ionicons name="calendar-outline" size={40} color="#5271FF" onPress={() => navigation.navigate('Calendar')}/>
                 </TouchableOpacity>
                 <TouchableOpacity>
-                    <Image source={profileIcon}  width={40}></Image>
+                    <Ionicons name="person-outline" size={40} color="#5271FF" />
                 </TouchableOpacity>
-
-            </View>
         </View>
     );
 };
 const styles = StyleSheet.create({
-    container:{
-        backgroundColor: "#F5F5F5",
-        width: "100%",
-        height: "100%",
-    },
+
     navbar: {
         width: "100%",
         height: 90,
@@ -56,15 +50,10 @@ const styles = StyleSheet.create({
         bottom: 0,
         left: 0,
         right: 0,
+        zIndex: 2,
 
     },
-    logo:{
-        width: 300,
-        height: 300,
-        display: 'flex',
-        justifyContent: 'center',
-        zIndex: 0,
-    },
+
     
 });
 export default Navbar;

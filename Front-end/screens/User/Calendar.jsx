@@ -7,7 +7,8 @@ import Quarter from "../../components/Botones/Quarter";
 import Fifth from "../../components/Botones/Fifth";
 
 
-const Calendario = () => {
+
+const Calendario = ({navigation}) => {
     const [selected, setSelected] = useState("");
 
     return (
@@ -36,7 +37,6 @@ const Calendario = () => {
                 }}
                 onDayPress={(day) => setSelected(day.dateString)}
             />
-            {/* {selected ? <Text style={styles.selectedText}>Seleccionaste: {selected}</Text> : null} */}
 
             <H3 texto="Movimientos Diarios" color="#FFFFFF" />
             <Quarter texto="$Ahorro y Fecha" style={styles.boton}  />
@@ -65,7 +65,8 @@ const styles = StyleSheet.create({
         // alignItems: 'center', 
         textAlign: 'center',
         gap: 15,
-        display: 'flex'
+        display: 'flex',
+        zIndex: 1,
     },
 
     title: {

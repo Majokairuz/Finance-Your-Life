@@ -33,37 +33,36 @@ export default function App() {
 
 
   return (
-    // <NavigationContainer>
-    //   <StatusBar style="auto"/>
-    //   <Stack.Navigator initialRouteName="Bienvenida">
-    //     <Stack.Screen
-    //       name="Bienvenida"
-    //       component={Bienvenida}
-    //       options={{ headerShown: false }}
-    //     />
-    //     <Stack.Screen
-    //       name="Home"
-    //       component={Home}
-    //       options={{ headerShown: false }}
-    //     />
-    //     <Stack.Screen
-    //       name="Login"
-    //       component={Login}
-    //       options={{ headerShown: false }}
-    //     />
-    //     <Stack.Screen
-    //       name="Signin"
-    //       component={Signin}
-    //       options={{ headerShown: false }}
-    //     />
-    //     <Stack.Screen
-    //       name="Dashboard"
-    //       component={User_Dashboard}
-    //       options={{ headerShown: false }}
-    //     />
-    //   </Stack.Navigator>
-    // </NavigationContainer>
-    //  <Calendario/>
-    <Navbar/>
+    <NavigationContainer>
+      <StatusBar style="auto"/>
+      <Stack.Navigator initialRouteName="Bienvenida">
+        <Stack.Screen
+          name="Bienvenida"
+          component={Bienvenida}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Home"
+          component={Home}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Signin"
+          component={Signin}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Dashboard"
+          component={User_Dashboard}
+          options={{ headerShown: false }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+
   );
 }

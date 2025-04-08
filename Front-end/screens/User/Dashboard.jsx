@@ -6,6 +6,12 @@ import Logo_Soft from '../../assets/Soft_Nova.png'
 import Cuerpo from '../../components/Titles/Cuerpo'
 // Iconos
 import { Ionicons } from '@expo/vector-icons'
+// Componentes
+import H1 from "../../components/Titles/H1";
+import H3 from "../../components/Titles/H3";
+// Barra de navegacion
+import Navbar from "../Navbar/Navbar";
+
 const UserDashboard = ({navigation}) =>{
     return(
         <View style={styles.container}>
@@ -19,6 +25,8 @@ const UserDashboard = ({navigation}) =>{
                 </View>
                 <Ionicons name="notifications-outline" size={30} color="#5271FF" />
             </View>
+        <Navbar/>  
+
         </View>
     )
 }
@@ -32,7 +40,8 @@ const styles = StyleSheet.create({
         flexDirection: 'column', 
         justifyContent: 'space-between', 
         alignItems: 'center', 
-        display: 'inline-flex'
+        display: 'inline-flex',
+        zIndex: 2,
     },
     User:{
         width: '100%',

@@ -121,11 +121,6 @@ const SignIn = ({navigation}) => {
           width={"100%"}
         />
 
-        <Cuerpo_Boton
-          texto="Olvidaste tu contraseña?"
-          onPress={() => alert("Hola")}
-          color="#000000"
-        />
 
         <Terciary texto="Registrarse" color="#FFFFFF" />
         <View style={styles.o}>

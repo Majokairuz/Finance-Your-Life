@@ -5,10 +5,13 @@ import H1 from "../../components/Titles/H1";
 import H3 from "../../components/Titles/H3";
 import Quarter from "../../components/Botones/Quarter";
 import Fifth from "../../components/Botones/Fifth";
+import Secundary_2 from "../../components/Botones/Secundary_2";
+import BotonAgregar from "../../components/Botones/BotonAgregar";
 
 
 
-const Calendario = ({navigation}) => {
+
+const Calendario = () => {
     const [selected, setSelected] = useState("");
 
     return (
@@ -39,11 +42,14 @@ const Calendario = ({navigation}) => {
             />
 
             <H3 texto="Movimientos Diarios" color="#FFFFFF" />
-            <Quarter texto="$Ahorro y Fecha" style={styles.boton}  />
-            <Fifth texto="$ahorro y fecha" style={styles.boton}/>
-
+            <Quarter texto="$ingreso y Fecha"  />
+            <Fifth texto="$ahorro y fecha" />
+            <Secundary_2 texto="$Gasto"/>
+            <BotonAgregar />
 
             
+
+
 
 
         </View>
@@ -66,7 +72,9 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         gap: 15,
         display: 'flex',
-        zIndex: 1,
+        paddingLeft: 10, 
+        paddingRight: 10,
+
     },
 
     title: {
@@ -81,8 +89,6 @@ const styles = StyleSheet.create({
         paddingBottom: 20,
         background: 'white',
         borderRadius: 20,
-        marginLeft: 10,
-        marginRight: 10,
     },
 
     selectedText: {
@@ -91,14 +97,9 @@ const styles = StyleSheet.create({
         color: "#ffffff",
     },
 
-    boton:{
-        marginLeft:10,
-        marginRight:10,
-    },
 
 
 });
-
 
 
 export default Calendario;

@@ -1,8 +1,10 @@
 import {TouchableOpacity, Text, View, StyleSheet} from 'react-native';
+import { Ionicons } from "@expo/vector-icons";
 
-const BotonQuarter = ({texto, onPress}) => {
+const BotonQuarter = ({texto, onPress,name,size,color,width}) => {
     return(
-        <TouchableOpacity onPress={onPress} style={styles.boton}>
+        <TouchableOpacity onPress={onPress} style={styles.boton} width={width}> 
+            <Ionicons name={name} size={size} color={color}/>
             <Text style={styles.texto}>{texto}</Text>
         </TouchableOpacity>
     )
@@ -10,7 +12,7 @@ const BotonQuarter = ({texto, onPress}) => {
 const styles = StyleSheet.create(
     {
         boton:{
-            width: '100%', 
+            width: 'auto', 
             height: '60px',
             backgroundColor: '#5EC57E', 
             borderRadius: 20,

@@ -12,7 +12,7 @@ import Login from "./screens/Login";
 import Signin from "./screens/Signin";
 import User_Dashboard from "./screens/User/Dashboard";
 import Calendario from "./screens/User/Calendar";
-import Navbar from "./screens/Navbar/Navbar";
+
 
 // SplashScreen
 import * as SplashScreen from "expo-splash-screen";

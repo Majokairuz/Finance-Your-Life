@@ -9,22 +9,39 @@ import { Ionicons } from '@expo/vector-icons'
 // Componentes
 import H1 from "../../components/Titles/H1";
 import H3 from "../../components/Titles/H3";
+import Secundary from "../../components/Botones/Secundary";
+import Quarter from '../../components/Botones/Quarter';
+import Fifth from '../../components/Botones/Fifth';
 // Barra de navegacion
 import Navbar from "../Navbar/Navbar";
+// grafica
+import DonutChart from "../../components/Graficas/DonutChart";
 
 const UserDashboard = ({navigation}) =>{
+
     return(
         <View style={styles.container}>
             <View style={styles.User}>
                 <View style={{flexDirection: 'row', gap: 10, alignItems: 'center'}}>
                         <Image source={Logo_Soft} style={styles.logo_user}></Image>
                     <View style={{flexDirection: 'column', gap: 5, alignItems: 'flex-start'}}>
+                        
                         <Cuerpo texto="Hola,"></Cuerpo>
                         <Cuerpo texto="Nico"></Cuerpo>
                     </View>
                 </View>
                 <Ionicons name="notifications-outline" size={30} color="#5271FF" />
             </View>
+            {/* <View style={styles.container_grafica}>
+                <DonutChart  title="Enero" ></DonutChart>
+            </View> */}
+            {/* <View style={styles.botons}>
+                <Quarter texto="Inversion" width={50} name="stats-chart-outline" size={40} color="#FFFFFF"></Quarter>
+                <Fifth texto="Noticias" width={50} name="stats-chart-outline" size={40} color="#FFFFFF"></Fifth>
+            </View> */}
+            <Secundary texto="Herramientas"></Secundary>
+
+           
         <Navbar/>  
 
         </View>
@@ -41,7 +58,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between', 
         alignItems: 'center', 
         display: 'inline-flex',
-        zIndex: 2,
+        zIndex: 1,
     },
     User:{
         width: '100%',
@@ -66,6 +83,20 @@ const styles = StyleSheet.create({
         width: 50,
         height: 50,
         borderRadius: 50,
+    },
+    container_grafica:{
+        width: '100%',
+        paddingLeft: 20,
+        paddingRight: 20,
+    },
+    botons:{
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        gap: 10,
+        padding: 20,
     }
 
 

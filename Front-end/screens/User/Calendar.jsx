@@ -7,6 +7,7 @@ import Quarter from "../../components/Botones/Quarter";
 import Fifth from "../../components/Botones/Fifth";
 import Secundary_2 from "../../components/Botones/Secundary_2";
 import BotonAgregar from "../../components/Botones/BotonAgregar";
+import Navbar from "../Navbar/Navbar";
 
 
 
@@ -51,7 +52,7 @@ const Calendario = () => {
 
 
 
-
+            <Navbar></Navbar>
         </View>
 
 

@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   input: {
     width: "100%",
     height: "60px",
-    backgroundColor: "#F0F0F0",
+    backgroundColor: "#FFFFFF",
     borderRadius: 20,
     position: "relative",
     padding: 20,
@@ -38,7 +38,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: "PoppinsMedium",
     fontWeight: "500",
-    boxShadow: "10px 10px 10px rgba(0, 0, 0, 0.25)",
+    borderWidth: 1,
+    borderColor: "#A3A3A3",
+
   },
 });
 

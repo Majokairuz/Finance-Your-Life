@@ -1,6 +1,5 @@
 import { TouchableOpacity,Text,View,StyleSheet,Image } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-
 // iconos
 import { Ionicons } from "@expo/vector-icons";
 import homeIcon from "../../assets/home.png";
@@ -20,7 +19,7 @@ const Navbar = ({navigation}) => {
                     <Ionicons name="bar-chart-outline" size={40} color="#5271FF" />
                 </TouchableOpacity>
                 <TouchableOpacity>
-                    <Ionicons name="calendar-outline" size={40} color="#5271FF" onPress={() => navigation.navigate('Calendar')}/>
+                    <Ionicons name="calendar-outline" size={40} color="#5271FF" />
                 </TouchableOpacity>
                 <TouchableOpacity>
                     <Ionicons name="person-outline" size={40} color="#5271FF" />
@@ -50,7 +49,7 @@ const styles = StyleSheet.create({
         bottom: 0,
         left: 0,
         right: 0,
-        zIndex: 2,
+        zIndex: 999,
 
     },
 

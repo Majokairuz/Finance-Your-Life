@@ -34,7 +34,7 @@ const SignIn = ({navigation}) => {
 
       try {
          //Envio de datos al backend
-        const response = await axios.post('http://192.168.1.43:8081/registro',{
+        const response = await axios.post('http://0.0.0.0:8081/registro',{
          Nombre: Nombre,
          Tipo_Documento: TipoDocumento,
          Numero_Documento: NumeroDocumento,

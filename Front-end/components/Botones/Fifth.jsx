@@ -1,10 +1,8 @@
 import {TouchableOpacity, Text, View, StyleSheet} from 'react-native';
-import { Ionicons } from "@expo/vector-icons";
 
-const BotonFifth = ({texto, onPress,name,size,color,width}) => {
+const BotonFifth = ({texto, onPress,}) => {
     return(
-        <TouchableOpacity onPress={onPress} style={styles.boton} width={width}>
-            <Ionicons name={name} size={size} color={color}/>
+        <TouchableOpacity onPress={onPress} style={styles.boton} >
             <Text style={styles.texto}>{texto}</Text>
         </TouchableOpacity>
     )

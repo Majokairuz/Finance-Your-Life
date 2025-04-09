@@ -48,11 +48,11 @@ const Login = ({navigation}) => {
           width={"100%"}
         ></Secundary>
 
-        <Button
-          title="Olvidaste tu contraseña?"
-          o onPress={() => navigation.navigate('Dashboard')}
+        <Cuerpo_Boton
+          texto="Olvidaste tu contraseña?"
+          o onPress={() => navigation.navigate('Calendar')}
           color="#000000"
-        ></Button>
+        ></Cuerpo_Boton>
 
         <Terciary texto="Iniciar Sesión" color="#FFFFFF"></Terciary>
         <View style={styles.o}>

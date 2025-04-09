@@ -11,7 +11,8 @@ import Home from "./screens/Home";
 import Login from "./screens/Login";
 import Signin from "./screens/Signin";
 import User_Dashboard from "./screens/User/Dashboard";
-import Calendario from "./screens/User/Calendar";
+import Calendar from "./screens/User/Calendar";
+import Navbar from "./screens/Navbar/Navbar";
 
 
 // SplashScreen
@@ -59,6 +60,16 @@ export default function App() {
         <Stack.Screen
           name="Dashboard"
           component={User_Dashboard}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Calendar"
+          component={Calendar}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Navbar"
+          component={Navbar}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

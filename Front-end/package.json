@@ -28,11 +28,13 @@
   },
   "dependencies": {
     "@expo-google-fonts/poppins": "^0.2.3",
+    "@react-navigation/bottom-tabs": "^7.3.10",
     "@react-navigation/native": "^7.1.0",
     "@react-navigation/stack": "^7.2.4",
     "axios": "^1.8.4",
     "expo": "^52.0.42",
     "expo-font": "~13.0.4",
+    "expo-linear-gradient": "~14.0.2",
     "expo-splash-screen": "^0.29.22",
     "expo-status-bar": "^2.0.1",
     "react": "18.3.1",
@@ -49,7 +51,6 @@
     "react-native-svg": "^15.11.2",
     "screen": "^0.2.10",
     "splash": "^0.3.0",
-    "victory-native": "^41.16.2",
-    "expo-linear-gradient": "~14.0.2"
+    "victory-native": "^41.16.2"
   }
 }

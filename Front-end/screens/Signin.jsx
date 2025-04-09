@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { View, Button, StyleSheet, Alert, ScrollView, Image } from 'react-native'
+import { View, StyleSheet, Alert, ScrollView, Image } from 'react-native'
 import axios from 'axios'
-import { useNavigation } from '@react-navigation/native'
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import Secundary from "../components/Inputs/Secundary";
@@ -58,7 +57,7 @@ const SignIn = ({navigation}) => {
   };
 
   return (
-    <SafeAreaProvider>
+  <SafeAreaProvider>
     <ScrollView style={styles.container}>
       <View style={styles.container_1}>
         <H1 texto="Registrarse" color="#FFFFFF" />
@@ -122,7 +121,7 @@ const SignIn = ({navigation}) => {
         />
 
 
-        <Terciary texto="Registrarse" color="#FFFFFF" />
+        <Terciary texto="Registrarse" color="#FFFFFF" onPress={handleRegister}/>
         <View style={styles.o}>
           <Image source={O}></Image>
         </View>

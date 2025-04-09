@@ -1,8 +1,13 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Image } from "react-native";
+
 // Navegacion
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+
+import * as SplashScreen from "expo-splash-screen";
+import { useEffect, useCallback } from "react";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+
 // Fuentes
 import { useFonts } from "expo-font";
 // Pantallas
@@ -15,12 +20,13 @@ import Calendar from "./screens/User/Calendar";
 import Navbar from "./screens/Navbar/Navbar";
 
 
-// SplashScreen
-import * as SplashScreen from "expo-splash-screen";
-// Efectos
-import { useEffect,useCallback } from "react";
+
 
 const Stack = createStackNavigator();
+
+// Evitar que el splash desaparezca automáticamente
+SplashScreen.preventAutoHideAsync();
+
 export default function App() {
   const [fontsLoaded] = useFonts({
     PoppinsRegular: require("./assets/fonts/Poppins-Regular.ttf"),
@@ -28,12 +34,20 @@ export default function App() {
     PoppinsMedium: require("./assets/fonts/Poppins-Medium.ttf"),
     PoppinsSemiBold: require("./assets/fonts/Poppins-SemiBold.ttf"),
   });
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync(); // Ocultar splash screen cuando las fuentes estén listas
+    }
+  }, [fontsLoaded]);
+
   if (!fontsLoaded) {
     return null;
   }
 
 
   return (
+  <SafeAreaProvider>
     <NavigationContainer>
       <StatusBar style="auto"/>
       <Stack.Navigator initialRouteName="Bienvenida">
@@ -74,6 +88,6 @@ export default function App() {
         />
       </Stack.Navigator>
     </NavigationContainer>
-
+  </SafeAreaProvider>
   );
 }

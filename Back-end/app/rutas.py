@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from werkzeug.security import generate_password_hash
-from .firebase import db
+from flask import current_app
 from .utilidades import correo_valido, contraseña_segura
 
 auth_bp = Blueprint('auth', __name__)
@@ -9,6 +9,7 @@ auth_bp = Blueprint('auth', __name__)
 @auth_bp.route('/registro', methods=['POST'])
 def registro():
     try:
+        db = current_app.db #current_app objeto global de Flask que te permite acceder al app original (el que tiene app.db que se encuentra en __init__) dentro del contexto de una solicitud, es decir, cuando se ejecuta un endpoint.
         # Obtiene los datos enviados por el cliente en formato JSON
         data = request.json
         # Define los campos obligatorios para el registro

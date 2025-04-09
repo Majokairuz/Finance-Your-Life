@@ -6,7 +6,7 @@ from firebase_admin import credentials, firestore
 def inicio_firebase():
  try:
     # Carga las credenciales desde un archivo JSON (debes haberlo descargado de Firebase)
-    cred = credentials.Certificate("./Back-end/conexion.json")  
+    cred = credentials.Certificate("./conexion.json")  
     # Inicializa la app de Firebase con las credenciales
     firebase_admin.initialize_app(cred)
     
@@ -15,7 +15,6 @@ def inicio_firebase():
     return firestore.client()
 
  except Exception as e:
-    print(f"Error al inicializar la base de datos: {e}")
-    return None
- 
-db=inicio_firebase()
+    # No iniciar flask si no se puede conectar a Firebase
+    raise  RuntimeError(f"Error al inicializar la base de datos: {e}")
+

@@ -18,6 +18,7 @@ import Signin from "./screens/Signin";
 import User_Dashboard from "./screens/User/Dashboard";
 import Calendar from "./screens/User/Calendar";
 import Ingresos from "./screens/User/Ingresos";
+import Presupuesto from "./screens/User/Presupuesto";
 // CSS
 import "./global.css"
 
@@ -47,44 +48,45 @@ export default function App() {
 
 
   return (
-  <SafeAreaProvider>
-    <NavigationContainer>
-      <StatusBar style="auto"/>
-      <Stack.Navigator initialRouteName="Bienvenida">
-        <Stack.Screen
-          name="Bienvenida"
-          component={Bienvenida}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Home"
-          component={Home}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Login"
-          component={Login}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Signin"
-          component={Signin}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Dashboard"
-          component={User_Dashboard}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Calendar"
-          component={Calendar}
-          options={{ headerShown: false }}
-        />
+  // <SafeAreaProvider>
+  //   <NavigationContainer>
+  //     <StatusBar style="auto"/>
+  //     <Stack.Navigator initialRouteName="Bienvenida">
+  //       <Stack.Screen
+  //         name="Bienvenida"
+  //         component={Bienvenida}
+  //         options={{ headerShown: false }}
+  //       />
+  //       <Stack.Screen
+  //         name="Home"
+  //         component={Home}
+  //         options={{ headerShown: false }}
+  //       />
+  //       <Stack.Screen
+  //         name="Login"
+  //         component={Login}
+  //         options={{ headerShown: false }}
+  //       />
+  //       <Stack.Screen
+  //         name="Signin"
+  //         component={Signin}
+  //         options={{ headerShown: false }}
+  //       />
+  //       <Stack.Screen
+  //         name="Dashboard"
+  //         component={User_Dashboard}
+  //         options={{ headerShown: false }}
+  //       />
+  //       <Stack.Screen
+  //         name="Calendar"
+  //         component={Calendar}
+  //         options={{ headerShown: false }}
+  //       />
 
-      </Stack.Navigator>
-    </NavigationContainer>
-  </SafeAreaProvider>
+  //     </Stack.Navigator>
+  //   </NavigationContainer>
+  // </SafeAreaProvider>
   // <Ingresos />
+  <Presupuesto/>
   )
 }

@@ -14,7 +14,7 @@ def create_app():
         print(e)
         exit(1)
 
-    from .rutas import auth_bp
+    from .Controller import auth_bp
     app.register_blueprint(auth_bp)
 
     return app

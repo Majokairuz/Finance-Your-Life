@@ -10,7 +10,7 @@ const BotonPrimary = ({texto, onPress}) => {
 const styles = StyleSheet.create(
     {
         primary:{
-            width: '100%', 
+            width: 'auto', 
             height: '60px',
             backgroundColor: '#5271FF', 
             borderRadius: 20,

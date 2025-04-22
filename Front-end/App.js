@@ -17,15 +17,12 @@ import Login from "./screens/Login";
 import Signin from "./screens/Signin";
 import User_Dashboard from "./screens/User/Dashboard";
 import Calendar from "./screens/User/Calendar";
-import Navbar from "./screens/Navbar/Navbar";
-
+import Ingresos from "./screens/User/Ingresos";
 
 
 
 const Stack = createStackNavigator();
 
-// Evitar que el splash desaparezca automáticamente
-SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -44,50 +41,48 @@ export default function App() {
   if (!fontsLoaded) {
     return null;
   }
+  
 
 
   return (
-  <SafeAreaProvider>
-    <NavigationContainer>
-      <StatusBar style="auto"/>
-      <Stack.Navigator initialRouteName="Bienvenida">
-        <Stack.Screen
-          name="Bienvenida"
-          component={Bienvenida}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Home"
-          component={Home}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Login"
-          component={Login}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Signin"
-          component={Signin}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Dashboard"
-          component={User_Dashboard}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Calendar"
-          component={Calendar}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Navbar"
-          component={Navbar}
-          options={{ headerShown: false }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
-  </SafeAreaProvider>
-  );
+  // <SafeAreaProvider>
+  //   <NavigationContainer>
+  //     <StatusBar style="auto"/>
+  //     <Stack.Navigator initialRouteName="Bienvenida">
+  //       <Stack.Screen
+  //         name="Bienvenida"
+  //         component={Bienvenida}
+  //         options={{ headerShown: false }}
+  //       />
+  //       <Stack.Screen
+  //         name="Home"
+  //         component={Home}
+  //         options={{ headerShown: false }}
+  //       />
+  //       <Stack.Screen
+  //         name="Login"
+  //         component={Login}
+  //         options={{ headerShown: false }}
+  //       />
+  //       <Stack.Screen
+  //         name="Signin"
+  //         component={Signin}
+  //         options={{ headerShown: false }}
+  //       />
+  //       <Stack.Screen
+  //         name="Dashboard"
+  //         component={User_Dashboard}
+  //         options={{ headerShown: false }}
+  //       />
+  //       <Stack.Screen
+  //         name="Calendar"
+  //         component={Calendar}
+  //         options={{ headerShown: false }}
+  //       />
+
+  //     </Stack.Navigator>
+  //   </NavigationContainer>
+  // </SafeAreaProvider>
+  <Ingresos />
+  )
 }

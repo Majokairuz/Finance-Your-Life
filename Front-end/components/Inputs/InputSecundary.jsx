@@ -1,6 +1,6 @@
 import { TextInput, View, StyleSheet } from "react-native";
 
-const InputPrimary = ({
+const InputSecondary= ({
   placeholder,
   value,
   onChangeText,
@@ -44,4 +44,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default InputPrimary;
+export default InputSecondary;

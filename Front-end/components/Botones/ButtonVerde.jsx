@@ -1,6 +1,6 @@
 import {TouchableOpacity, Text, View, StyleSheet} from 'react-native';
 
-const BotonFifth = ({texto, onPress,}) => {
+const BotonVerde = ({texto, onPress,}) => {
     return(
         <TouchableOpacity onPress={onPress} style={styles.boton} >
             <Text style={styles.texto}>{texto}</Text>
@@ -12,7 +12,7 @@ const styles = StyleSheet.create(
         boton:{
             width: 'auto', 
             height: '60px',
-            backgroundColor: '#FF9359', 
+            backgroundColor: '#5EC57E', 
             borderRadius: 20,
             position: 'relative',
             padding: 20,
@@ -42,4 +42,4 @@ const styles = StyleSheet.create(
         }
     }
 )
-export default BotonFifth;
+export default BotonVerde;

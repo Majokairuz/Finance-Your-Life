@@ -1,8 +1,8 @@
 import {TouchableOpacity, Text, View, StyleSheet} from 'react-native';
 
-const BotonSecundary = ({texto, onPress}) => {
+const BotonQuarter = ({texto, onPress,}) => {
     return(
-        <TouchableOpacity onPress={onPress} style={styles.boton}>
+        <TouchableOpacity onPress={onPress} style={styles.boton} > 
             <Text style={styles.texto}>{texto}</Text>
         </TouchableOpacity>
     )
@@ -12,7 +12,7 @@ const styles = StyleSheet.create(
         boton:{
             width: 'auto', 
             height: '60px',
-            backgroundColor: '#FFFFFF', 
+            backgroundColor: '#FF9359', 
             borderRadius: 20,
             position: 'relative',
             padding: 20,
@@ -31,7 +31,7 @@ const styles = StyleSheet.create(
             justifyContent: 'center', 
             display: 'flex', 
             flexDirection: 'column', 
-            color: '#000000', 
+            color: '#ffffff', 
             fontSize: 16, 
             fontFamily: 'PoppinsMedium', 
             fontWeight: '500', 
@@ -42,4 +42,4 @@ const styles = StyleSheet.create(
         }
     }
 )
-export default BotonSecundary;
+export default BotonQuarter;

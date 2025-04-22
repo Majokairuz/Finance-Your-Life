@@ -10,7 +10,7 @@
     "splash": {
       "image": "./assets/Favicon-Transparente.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#5271FF"
     },
     "ios": {
       "supportsTablet": true
@@ -18,7 +18,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/Favicon-Transparente.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#5271FF"
       }
     },
     "web": {

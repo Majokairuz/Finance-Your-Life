@@ -10,8 +10,8 @@ import { Ionicons } from '@expo/vector-icons'
 import H1 from "../../components/Titles/H1";
 import H3 from "../../components/Titles/H3";
 import Secundary from "../../components/Botones/Secundary";
-import Quarter from '../../components/Botones/Quarter';
-import Fifth from '../../components/Botones/Fifth';
+import ButtonNaranja from '../../components/Botones/ButtonNaranja';
+import ButtonVerde from '../../components/Botones/ButtonVerde';
 // Barra de navegacion
 import Navbar from "../Navbar/Navbar";
 // grafica

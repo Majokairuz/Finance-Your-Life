@@ -3,7 +3,7 @@ import {View,StyleSheet,Button,Image,} from "react-native";
 import { useState } from "react";
 import { NavigationContainer } from '@react-navigation/native';
 // Input
-import Secundary from "../components/Inputs/Secundary";
+import Secundary from "../components/Inputs/InputSecundary";
 // Butones
 import Terciary from "../components/Botones/Terciary";
 import Cuerpo_Boton from "../components/Botones/Cuerpo_Boton";

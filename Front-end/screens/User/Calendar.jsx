@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Calendar } from "react-native-calendars";
+// Titulos
 import H1 from "../../components/Titles/H1";
 import H3 from "../../components/Titles/H3";
-import Quarter from "../../components/Botones/Quarter";
-import Fifth from "../../components/Botones/Fifth";
+// Botones
+import ButtonNaranja from "../../components/Botones/ButtonNaranja";
+import ButtonVerde from "../../components/Botones/ButtonVerde";
 import Secundary_2 from "../../components/Botones/Secundary_2";
 import BotonAgregar from "../../components/Botones/BotonAgregar";
 import Navbar from "../Navbar/Navbar";
@@ -43,8 +45,8 @@ const Calendario = () => {
             />
 
             <H3 texto="Movimientos Diarios" color="#FFFFFF" />
-            <Quarter texto="$ingreso y Fecha"  />
-            <Fifth texto="$ahorro y fecha" />
+            <ButtonNaranja texto="$ingreso y Fecha"  />
+            <ButtonVerde texto="$ahorro y fecha" />
             <Secundary_2 texto="$Gasto"/>
             <BotonAgregar />
 

@@ -1,8 +1,8 @@
 import { Text, StyleSheet } from 'react-native';
 
-const H4 = ({texto})=> {
+const H4 = ({texto, color,textAlign})=> {
     return(
-        <Text style={styles.titulo_cuatro}>{texto}</Text>
+        <Text style={[styles.titulo_cuatro, {color}, {textAlign}]}>{texto}</Text>
     )
 }
 const styles = StyleSheet.create({

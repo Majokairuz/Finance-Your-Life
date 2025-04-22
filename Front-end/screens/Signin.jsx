@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { View, StyleSheet, Alert, ScrollView, Image } from 'react-native'
 import axios from 'axios'
 import { SafeAreaProvider } from "react-native-safe-area-context";
+// Inputs
+import Secundary from "../components/Inputs/InputSecundary";
+import SelectInput from "../components/Inputs/Select_Input";
 
-import Secundary from "../components/Inputs/Secundary";
 // Butones
 import Terciary from "../components/Botones/Terciary";
 import Cuerpo_Boton from "../components/Botones/Cuerpo_Boton";
@@ -66,6 +68,7 @@ const SignIn = ({navigation}) => {
           color="#FFFFFF"
         />
       </View>
+      
       <View style={styles.container_2}>
         <Secundary
           placeholder="Nombre Completo:"
@@ -73,6 +76,8 @@ const SignIn = ({navigation}) => {
           onChangeText={setNombre}
           width={"100%"}
         />
+
+
         <View
           style={{
             display: "flex",
@@ -81,13 +86,18 @@ const SignIn = ({navigation}) => {
             gap: 10,
           }}
         >
-          <Secundary
-            placeholder="T. Documento:"
+          <SelectInput 
             value={TipoDocumento}
-            onChangeText={setTipoDocumento}
+            onValueChange={(value) => setTipoDocumento(value)}
+            placeholder="Tipo de Documento:"
             width="50%"
-            
-          />
+            options={[
+              { label: "C.C", value: "cc" },
+              { label: "T.I", value: "ti" },
+              { label: "C.E", value: "ce" },
+              { label: "Tipo", value: "Tipo" },
+            ]}/>
+
 
           <Secundary
             placeholder="N. Documento:"

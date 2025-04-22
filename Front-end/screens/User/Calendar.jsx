@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Calendar } from "react-native-calendars";
+import Calendares from "../../components/Calendares";
 // Titulos
 import H1 from "../../components/Titles/H1";
 import H3 from "../../components/Titles/H3";

@@ -18,6 +18,8 @@ import Signin from "./screens/Signin";
 import User_Dashboard from "./screens/User/Dashboard";
 import Calendar from "./screens/User/Calendar";
 import Ingresos from "./screens/User/Ingresos";
+// CSS
+import "./global.css"
 
 
 

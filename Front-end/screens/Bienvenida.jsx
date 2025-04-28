@@ -9,7 +9,7 @@ const Welcome = ({navigation}) =>{
         <View style={styles.container}>
             <Image source={Logo} style={styles.logo} />
             <Inicio texto="continuar" onPress={() => navigation.navigate('Home')}/>
-            <View className="flex-1 justify-center items-center bg-blue-500">
+            <View style={styles.titulo}>
             <Cuerpo texto='Domina tus finanzas y alcanza tus metas con facilidad' color='#FFF' fontSize={16}></Cuerpo>
             </View>
 

@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     color: "#000000",
     fontSize: 16,
     fontFamily: "PoppinsMedium",
-    fontWeight: "500",
+    fontWeight: "400",
     borderWidth: 1,
     borderColor: "#A3A3A3",
 

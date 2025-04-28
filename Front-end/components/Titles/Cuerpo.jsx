@@ -7,7 +7,7 @@ const Cuerpo = ({texto,color,fontSize,alert,marginBottom})=> {
 }
 const styles = StyleSheet.create({
     cuerpo: {
-        
+        backgroundColor: 'none',
         fontSize: 16, 
         fontFamily: 'PoppinsRegular', 
         fontWeight: '600', 

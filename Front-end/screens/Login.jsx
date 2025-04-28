@@ -1,7 +1,9 @@
 
-import {View,StyleSheet,Button,Image,} from "react-native";
+import {View,StyleSheet,Button,Image,ScrollView} from "react-native";
 import { useState } from "react";
 import { NavigationContainer } from '@react-navigation/native';
+import { SafeAreaProvider } from "react-native-safe-area-context";
+
 // Input
 import Secundary from "../components/Inputs/InputSecundary";
 // Butones
@@ -22,7 +24,8 @@ const Login = ({navigation}) => {
   const [password, setPassword] = useState("");
 
   return (
-    <View style={styles.container}>
+    <SafeAreaProvider>
+    <ScrollView style={styles.container}>
       <View style={styles.container_1}>
         <H1 texto="Iniciar Sesión" color="#FFFFFF"></H1>
         <Cuerpo
@@ -85,7 +88,8 @@ const Login = ({navigation}) => {
           ></Cuerpo_Boton>
         </View>
       </View>
-    </View>
+    </ScrollView>
+    </SafeAreaProvider>
   );
 };
 const styles = StyleSheet.create({
@@ -111,7 +115,7 @@ const styles = StyleSheet.create({
   },
   container_2: {
     width: "100%",
-    height: "70%",
+    height: "100%",
     paddingLeft: 30,
     paddingRight: 30,
     paddingTop: 60,

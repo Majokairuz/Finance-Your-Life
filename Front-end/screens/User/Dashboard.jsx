@@ -1,105 +1,79 @@
-import {View, Text, StyleSheet, Image} from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-// Imagenes
-import Logo_Soft from '../../assets/Soft_Nova.png'
-// Textos
-import Cuerpo from '../../components/Titles/Cuerpo'
-// Iconos
-import { Ionicons } from '@expo/vector-icons'
-// Componentes
-import H1 from "../../components/Titles/H1";
-import H3 from "../../components/Titles/H3";
-import Secundary from "../../components/Botones/Secundary";
-import ButtonNaranja from '../../components/Botones/ButtonNaranja';
-import ButtonVerde from '../../components/Botones/ButtonVerde';
-// Barra de navegacion
-import Navbar from "../Navbar/Navbar";
-// grafica
-import DonutChart from "../../components/Graficas/DonutChart";
+import React from 'react';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { ProgressChart } from 'react-native-chart-kit';
+import { Dimensions } from 'react-native';
+// Botones
+import IconButton from '../../components/Botones/Icon_Button';
+// Header
+import Header from '../../components/Header/header';
+// Navbar
 
-const UserDashboard = ({navigation}) =>{
+// Gráficas
+import DonutChart from '../../components/Graficas/DonutChart';
 
-    return(
-        <View style={styles.container}>
-            <View style={styles.User}>
-                <View style={{flexDirection: 'row', gap: 10, alignItems: 'center'}}>
-                        <Image source={Logo_Soft} style={styles.logo_user}></Image>
-                    <View style={{flexDirection: 'column', gap: 5, alignItems: 'flex-start'}}>
-                        
-                        <Cuerpo texto="Hola,"></Cuerpo>
-                        <Cuerpo texto="Nico"></Cuerpo>
-                    </View>
-                </View>
-                <Ionicons name="notifications-outline" size={30} color="#5271FF" />
-            </View>
-            {/* <View style={styles.container_grafica}>
-                <DonutChart  title="Enero" ></DonutChart>
-            </View> */}
-            {/* <View style={styles.botons}>
-                <Quarter texto="Inversion" width={50} name="stats-chart-outline" size={40} color="#FFFFFF"></Quarter>
-                <Fifth texto="Noticias" width={50} name="stats-chart-outline" size={40} color="#FFFFFF"></Fifth>
-            </View> */}
-            <Secundary texto="Herramientas"></Secundary>
+const screenWidth = Dimensions.get('window').width;
 
-           
-        <Navbar/>  
+const DashboardScreen = () => {
+  const financialData = [
+    { label: "Ingresos", value: 0.3, amount: 2500, color: "#5EC57E" },   // naranja
+    { label: "Gastos", value: 0.5, amount: 1000, color: "#FF9359" },
+    { label: "Ahorro", value: 0.2, amount: 500, color: "#5271FF" },
+  ];
+  return (
+    <View style={styles.container}>
+      
+      {/* Header de usuario */}
+      <Header texto="Nombre de usuario"></Header>
+      <View style={styles.container_2}>
 
-        </View>
-    )
-}
+      {/* Gráfico circular */}
+      <DonutChart title="Mes Actual"
+        data={financialData} />
+      {/* Botones de acción */}
+      <View style={styles.container_3}>
+        <IconButton texto="Inversión" name="bar-chart-outline" iconColor="#FFFFFF" size={30} backgroundColor="#5EC57E" width="50%"></IconButton>
+        <IconButton texto="Ahorro" name="newspaper-outline" iconColor="#FFFFFF" size={30} backgroundColor="#FF9359"  width="50%"></IconButton>
+      </View>
+      </View>
+
+      {/* Menú inferior */}
+
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
-    container:{
-        width: '100%', 
-        height: '100%', 
-        backgroundColor: '#5271FF', 
-        overflow: 'hidden', 
-        flexDirection: 'column', 
-        justifyContent: 'space-between', 
-        alignItems: 'center', 
-        display: 'inline-flex',
-        zIndex: 1,
-    },
-    User:{
-        width: '100%',
-         height: '15%', 
-         padding: 20,
-         paddingTop: 60, 
-         backgroundColor: 'white',
-         shadowColor: '#000',
-         shadowOffset: { width: 0, height: 10 },
-         shadowOpacity: 0.25,
-         shadowRadius: 10,
-         elevation: 5,
-         borderBottomRightRadius: 20, 
-         borderBottomLeftRadius: 20, 
-         flexDirection: 'row', 
-         justifyContent: 'space-between', 
-         alignItems: 'center', 
-         display: 'flex'
-
-    },
-    logo_user:{
-        width: 50,
-        height: 50,
-        borderRadius: 50,
-    },
-    container_grafica:{
-        width: '100%',
-        paddingLeft: 20,
-        paddingRight: 20,
-    },
-    botons:{
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        gap: 10,
-        padding: 20,
-    }
+  container: {
+    width: '100%',
+    height: '100%',
+    flex: 1,
+    backgroundColor: '#5271FF',
+    alignItems: 'center',
+  },
+  container_2: {
+    marginTop: "10%",
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    gap: "5%",
+    paddingLeft: 5,
+    paddingRight:5,
+  },
+  container_3: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+    gap: 10,
+    paddingLeft: 5,
+    paddingRight: 15,
+  },
 
 
 });
 
-export default UserDashboard;
+export default DashboardScreen;

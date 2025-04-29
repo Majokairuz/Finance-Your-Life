@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet,ScrollView } from "react-native";
 import { Calendar } from "react-native-calendars";
-import Calendares from "../../components/Calendares";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+
+import Calendares from "../../components/Graficas/Calendares";
 // Titulos
 import H1 from "../../components/Titles/H1";
 import H3 from "../../components/Titles/H3";
 // Botones
-import ButtonNaranja from "../../components/Botones/ButtonNaranja";
-import ButtonVerde from "../../components/Botones/ButtonVerde";
-import Secundary_2 from "../../components/Botones/Secundary_2";
+import CustomBoton from "../../components/Botones/CustomButton";
 import BotonAgregar from "../../components/Botones/BotonAgregar";
-import Navbar from "../Navbar/Navbar";
+
 
 
 
@@ -19,8 +19,10 @@ const Calendario = () => {
     const [selected, setSelected] = useState("");
 
     return (
-        <View style={styles.container}>
+        <SafeAreaProvider>
+        <ScrollView style={styles.container}>
             <H1 texto="Calendario" color="#FFFFFF" textAlign="center" />
+            <View style={styles.container_2}>
             <Calendar
                 style={styles.calendar}
                 theme={{
@@ -46,17 +48,19 @@ const Calendario = () => {
             />
 
             <H3 texto="Movimientos Diarios" color="#FFFFFF" />
-            <ButtonNaranja texto="$ingreso y Fecha"  />
-            <ButtonVerde texto="$ahorro y fecha" />
-            <Secundary_2 texto="$Gasto"/>
+            <CustomBoton backgroundColor="#FF9359" texto="$ingreso y Fecha"  />
+            <CustomBoton backgroundColor="#5EC57E" texto="$ahorro y fecha" />
+            <CustomBoton color="#000000" backgroundColor="#FFFFFF" texto="$Gasto"/>
             <BotonAgregar />
+            </View>
 
             
 
 
 
-            <Navbar></Navbar>
-        </View>
+            
+        </ScrollView>
+        </SafeAreaProvider>
 
 
     );
@@ -66,19 +70,24 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         height: '100%',
-        paddingTop: 50,
+        paddingTop: 80,
         // position: 'relative',
         backgroundColor: '#5271FF',
         // overflow: 'hidden',
         flexDirection: 'column',
-        justifyContent: 'flex-start',
         // alignItems: 'center', 
         textAlign: 'center',
-        gap: 15,
+        gap: 50,
         display: 'flex',
         paddingLeft: 10, 
         paddingRight: 10,
 
+    },
+    container_2:{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 20,
+        paddingTop: 20,
     },
 
     title: {

@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, Image, } from 'react-native';
 import H1 from '../components/Titles/H1';
 import Cuerpo from '../components/Titles/Cuerpo';
 // Botones
-import Primary from '../components/Botones/Primary'
+import Primary from '../components/Botones/CustomButton'
 const logo = require('../assets/Logo.png');
 
 
@@ -16,7 +16,7 @@ const  Home = ({navigation}) =>{
         <H1 texto="Bienvenido" ></H1>
         <Cuerpo texto="Finance Your Life es la herramienta que necesitas para tomar el control de tus finanzas" fontSize={17}></Cuerpo>
         
-        <Primary texto="Iniciar Sesión" onPress={() => navigation.navigate('Login')} />
+        <Primary texto="Iniciar Sesión" textColor="#FFFFFF" onPress={() => navigation.navigate('Login')} />
         <Primary texto="Registrarse" onPress={() => navigation.navigate('Signin')} />
         
   

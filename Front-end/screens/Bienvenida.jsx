@@ -1,6 +1,6 @@
 import {View, StyleSheet,Image,TouchableOpacity} from 'react-native';
 import Cuerpo from '../components/Titles/Cuerpo'
-import Inicio from '../components/Botones/Inicio'
+import Inicio from '../components/Botones/Button_Icon_Right'
 import Logo from '../assets/Logo.png'
 
 const Welcome = ({navigation}) =>{

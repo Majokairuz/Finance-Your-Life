@@ -9,7 +9,7 @@ import SelectInput from "../components/Inputs/Select_Input";
 import Fecha from "../components/Inputs/Fecha";
 
 // Butones
-import Terciary from "../components/Botones/Terciary";
+import CustomBoton from "../components/Botones/CustomButton";
 import Cuerpo_Boton from "../components/Botones/Cuerpo_Boton";
 // Textos
 import H1 from "../components/Titles/H1";
@@ -136,7 +136,7 @@ const SignIn = ({navigation}) => {
         />
 
 
-        <Terciary texto="Registrarse" color="#FFFFFF" onPress={handleRegister}/>
+        <CustomBoton texto="Registrarse" color="#FFFFFF" backgroundColor="#000000" onPress={handleRegister}/>
         <View style={styles.o}>
           <Image source={O}></Image>
         </View>

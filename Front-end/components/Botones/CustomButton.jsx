@@ -1,9 +1,9 @@
 import {TouchableOpacity, Text, View, StyleSheet} from 'react-native';
 
-const BotonPrimary = ({texto, onPress}) => {
+const BotonPrimary = ({texto, onPress, color,backgroundColor}) => {
     return(
-        <TouchableOpacity onPress={onPress} style={styles.primary}>
-            <Text style={[styles.texto]}>{texto}</Text>
+        <TouchableOpacity onPress={onPress} style={[styles.primary,{backgroundColor: backgroundColor || '#5271FF'}]}>
+            <Text style={[styles.texto, {color: color || '#FFFFFF'}]}>{texto}</Text>
         </TouchableOpacity>
     )
 }
@@ -12,7 +12,6 @@ const styles = StyleSheet.create(
         primary:{
             width: '100%', 
             height: '60px',
-            backgroundColor: '#5271FF', 
             borderRadius: 20,
             position: 'relative',
             padding: 20,
@@ -20,7 +19,6 @@ const styles = StyleSheet.create(
             justifyContent: 'center',
             display: 'flex',
             flexDirection: 'column',
-            color: '#FFFFFF',
             boxShadow: '10px 10px 10px rgba(0, 0, 0, 0.25)',
             
         },
@@ -30,7 +28,6 @@ const styles = StyleSheet.create(
             justifyContent: 'center', 
             display: 'flex', 
             flexDirection: 'column', 
-            color: '#FFFFFF', 
             fontSize: 16, 
             fontFamily: 'PoppinsMedium', 
             fontWeight: '500', 

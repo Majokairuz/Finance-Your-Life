@@ -53,11 +53,10 @@ const Login = ({navigation}) => {
 
         <Cuerpo_Boton
           texto="Olvidaste tu contraseña?"
-          o onPress={() => navigation.navigate('Calendar')}
           color="#000000"
         ></Cuerpo_Boton>
 
-        <CustomButton texto="Iniciar Sesión" color="#FFFFFF" backgroundColor="#000000"></CustomButton>
+        <CustomButton texto="Iniciar Sesión" color="#FFFFFF" backgroundColor="#000000" onPress={() => navigation.navigate('MainApp')} ></CustomButton>
         <View style={styles.o}>
           <Image source={O}></Image>
         </View>

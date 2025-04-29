@@ -5,9 +5,11 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 // Inputs
 import Secundary from "../components/Inputs/InputSecundary";
 import SelectInput from "../components/Inputs/Select_Input";
+// Importar el componente de fecha
+import Fecha from "../components/Inputs/Fecha";
 
 // Butones
-import Terciary from "../components/Botones/Terciary";
+import CustomBoton from "../components/Botones/CustomButton";
 import Cuerpo_Boton from "../components/Botones/Cuerpo_Boton";
 // Textos
 import H1 from "../components/Titles/H1";
@@ -84,35 +86,38 @@ const SignIn = ({navigation}) => {
             flexDirection: "row",
             alignItems: "center",
             gap: 10,
+            
           }}
         >
           <SelectInput 
             value={TipoDocumento}
             onValueChange={(value) => setTipoDocumento(value)}
-            placeholder="Tipo de Documento:"
+            placeholder="Tipo Doc:"
             width="50%"
             options={[
               { label: "C.C", value: "cc" },
               { label: "T.I", value: "ti" },
               { label: "C.E", value: "ce" },
-              { label: "Tipo", value: "Tipo" },
+              { label: "P.A", value: "pa" },
+              { label: "NIT", value: "nit" }, 
             ]}/>
 
 
           <Secundary
-            placeholder="N. Documento:"
+            placeholder="N. Doc:"
             value={NumeroDocumento}
             onChangeText={setNumeroDocumento}
             width="50%"
           />
         </View>
 
-        <Secundary
+        <Fecha
           placeholder="Fecha de Nacimiento:"
           value={FechaNacimiento}
-          onChangeText={setFechaNacimiento}
-          width={"100%"}
-        />
+          onChange={setFechaNacimiento}
+          maxDate={new Date()} // No permite fechas futuras
+          width="100%"
+          />
 
         <Secundary
           placeholder="Correo:"
@@ -131,7 +136,7 @@ const SignIn = ({navigation}) => {
         />
 
 
-        <Terciary texto="Registrarse" color="#FFFFFF" onPress={handleRegister}/>
+        <CustomBoton texto="Registrarse" color="#FFFFFF" backgroundColor="#000000" onPress={handleRegister}/>
         <View style={styles.o}>
           <Image source={O}></Image>
         </View>

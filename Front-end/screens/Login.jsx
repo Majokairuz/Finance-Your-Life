@@ -1,11 +1,13 @@
 
-import {View,StyleSheet,Button,Image,} from "react-native";
+import {View,StyleSheet,Button,Image,ScrollView} from "react-native";
 import { useState } from "react";
 import { NavigationContainer } from '@react-navigation/native';
+import { SafeAreaProvider } from "react-native-safe-area-context";
+
 // Input
 import Secundary from "../components/Inputs/InputSecundary";
 // Butones
-import Terciary from "../components/Botones/Terciary";
+import CustomButton from "../components/Botones/CustomButton";
 import Cuerpo_Boton from "../components/Botones/Cuerpo_Boton";
 // Textos
 import H1 from "../components/Titles/H1";
@@ -22,7 +24,8 @@ const Login = ({navigation}) => {
   const [password, setPassword] = useState("");
 
   return (
-    <View style={styles.container}>
+    <SafeAreaProvider>
+    <ScrollView style={styles.container}>
       <View style={styles.container_1}>
         <H1 texto="Iniciar Sesión" color="#FFFFFF"></H1>
         <Cuerpo
@@ -50,11 +53,10 @@ const Login = ({navigation}) => {
 
         <Cuerpo_Boton
           texto="Olvidaste tu contraseña?"
-          o onPress={() => navigation.navigate('Calendar')}
           color="#000000"
         ></Cuerpo_Boton>
 
-        <Terciary texto="Iniciar Sesión" color="#FFFFFF"></Terciary>
+        <CustomButton texto="Iniciar Sesión" color="#FFFFFF" backgroundColor="#000000" onPress={() => navigation.navigate('MainApp')} ></CustomButton>
         <View style={styles.o}>
           <Image source={O}></Image>
         </View>
@@ -85,7 +87,8 @@ const Login = ({navigation}) => {
           ></Cuerpo_Boton>
         </View>
       </View>
-    </View>
+    </ScrollView>
+    </SafeAreaProvider>
   );
 };
 const styles = StyleSheet.create({
@@ -111,7 +114,7 @@ const styles = StyleSheet.create({
   },
   container_2: {
     width: "100%",
-    height: "70%",
+    height: "100%",
     paddingLeft: 30,
     paddingRight: 30,
     paddingTop: 60,

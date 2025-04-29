@@ -1,118 +1,114 @@
-import React, { useState } from "react";
-import {
-  View,
-  Text,
-  Modal,
-  TouchableOpacity,
-  Platform,
-  StyleSheet,
-} from "react-native";
-import { Picker } from "@react-native-picker/picker";
-import { Ionicons } from "@expo/vector-icons";
+import React, { useState } from 'react';
+import { Modal, View, Text, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
+import { AntDesign } from '@expo/vector-icons'; // Flechita para abajo
 
-const DocumentPicker = ({ value, onChange }) => {
-  const [showModal, setShowModal] = useState(false);
+const SelectInput = ({ 
+  options, 
+  placeholder = 'Selecciona una opción', 
+  onValueChange 
+}) => {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedLabel, setSelectedLabel] = useState(''); // Guarda el label seleccionado
 
-  const options = [
-    { label: "C.C", value: "cc" },
-    { label: "T.I", value: "ti" },
-    { label: "C.E", value: "ce" },
-  ];
-
-  const selectedLabel =
-    options.find((opt) => opt.value === value)?.label || "T. Documento";
+  const handleSelect = (item) => {
+    setSelectedLabel(item.label); // Cambia el texto mostrado
+    onValueChange(item); // Devuelve el objeto seleccionado al padre
+    setModalVisible(false); // Cierra el modal
+  };
 
   return (
-    <>
-      {Platform.OS === "ios" ? (
-        <>
-          <TouchableOpacity
-            style={styles.input}
-            onPress={() => setShowModal(true)}
-          >
-            <Text style={{ color: value ? "#000" : "#999" }}>
-              {selectedLabel}
-            </Text>
-            <Ionicons name="chevron-down" size={18} color="#888" />
-          </TouchableOpacity>
-
-          <Modal visible={showModal} transparent animationType="slide">
-            <TouchableOpacity
-              style={styles.modalBackground}
-              activeOpacity={1}
-              onPressOut={() => setShowModal(false)}
-            >
-              <View style={styles.pickerWrapper}>
-                <Picker
-                  selectedValue={value}
-                  onValueChange={(itemValue) => {
-                    onChange(itemValue);
-                    setShowModal(false);
-                  }}
-                >
-                  <Picker.Item label="T. Documento" value="" color="#999" style={{fontSize: 16}} />
-                  {options.map((item) => (
-                    <Picker.Item
-                      key={item.value}
-                      label={item.label}
-                      value={item.value}
-                    />
-                  ))}
-                </Picker>
-              </View>
-            </TouchableOpacity>
-          </Modal>
-        </>
-      ) : (
-        <View style={styles.input}>
-          <Picker
-            selectedValue={value}
-            onValueChange={onChange}
-            style={{ flex: 1 }}
-            dropdownIconColor="#666"
-          >
-            <Picker.Item label="T. Doc" value="" color="#999" />
-            {options.map((item) => (
-              <Picker.Item
-                key={item.value}
-                label={item.label}
-                value={item.value}
-              />
-            ))}
-          </Picker>
+    <View style={styles.container}>
+      <TouchableOpacity
+        style={styles.selector}
+        onPress={() => setModalVisible(true)}
+      >
+        <View style={styles.selectorContent}>
+          <Text style={styles.selectorText}>
+            {selectedLabel || placeholder}
+          </Text>
+          <AntDesign name="down" size={18} color="#A3A3A3" />
         </View>
-      )}
-    </>
+      </TouchableOpacity>
+
+      <Modal
+        transparent={true}
+        visible={modalVisible}
+        animationType="slide"
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <TouchableOpacity 
+          style={styles.modalOverlay} 
+          onPress={() => setModalVisible(false)}
+          activeOpacity={1}
+        >
+          <View style={styles.modalContent}>
+            <FlatList 
+              data={options}
+              keyExtractor={(item) => item.value}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  style={styles.option}
+                  onPress={() => handleSelect(item)}
+                >
+                  <Text style={styles.optionText}>{item.label}</Text>
+                </TouchableOpacity>
+              )}
+            />
+          </View>
+        </TouchableOpacity>
+      </Modal>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  input: {
+  container: {
+    width: '50%',
+  },
+  selector: {
+    height: 65,
     borderWidth: 1,
-    borderColor: "#aaa",
+    borderColor: '#A3A3A3',
     borderRadius: 20,
-    paddingHorizontal: 12,
-    paddingVertical: Platform.OS === "ios" ? 14 : 0,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    backgroundColor: "#fff",
-    height: 70,
-    width: "50%",
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    backgroundColor: '#FFFFFF',
+    justifyContent: 'center',
+  },
+  selectorContent: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  selectorText: {
+    fontFamily: 'Poppins_500Medium', // Usando poppins
     fontSize: 16,
-    fontFamily: "PoppinsMedium",
-
+    color: '#A3A3A3',
   },
-  modalBackground: {
+  modalOverlay: {
     flex: 1,
-    justifyContent: "flex-end",
-    backgroundColor: "rgba(0,0,0,0.3)",
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 20,
   },
-  pickerWrapper: {
-    backgroundColor: "#fff",
-    borderTopLeftRadius: 12,
-    borderTopRightRadius: 12,
+  modalContent: {
+    width: '100%',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 20,
+    padding: 20,
+  },
+  option: {
+    paddingVertical: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+  },
+  optionText: {
+    fontFamily: 'Poppins_500Medium',
+    fontSize: 18,
+    color: '#333',
+    textAlign: 'center',
   },
 });
 
-export default DocumentPicker;
+export default SelectInput;

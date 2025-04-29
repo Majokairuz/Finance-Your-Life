@@ -15,9 +15,7 @@ import Bienvenida from "./screens/Bienvenida";
 import Home from "./screens/Home";
 import Login from "./screens/Login";
 import Signin from "./screens/Signin";
-import User_Dashboard from "./screens/User/Dashboard";
-import Calendar from "./screens/User/Calendar";
-import Ingresos from "./screens/User/Ingresos";
+import MainApp from "./screens/MainApp";
 // CSS
 import "./global.css"
 
@@ -71,20 +69,16 @@ export default function App() {
           component={Signin}
           options={{ headerShown: false }}
         />
-        <Stack.Screen
-          name="Dashboard"
-          component={User_Dashboard}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Calendar"
-          component={Calendar}
-          options={{ headerShown: false }}
-        />
+        {/* Cuando logueas exitosamente, vas a MainApp */}
+        <Stack.Screen 
+        name="MainApp" 
+        component={MainApp} 
+        options={{ headerShown: false }} />
 
   //     </Stack.Navigator>
   //   </NavigationContainer>
   // </SafeAreaProvider>
   // <Ingresos />
+  // <DashboardScreen/>
   )
 }

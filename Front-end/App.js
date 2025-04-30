@@ -45,39 +45,38 @@ export default function App() {
 
 
   return (
-  <SafeAreaProvider>
-    <NavigationContainer>
-      <StatusBar style="auto"/>
-      <Stack.Navigator initialRouteName="Bienvenida">
-        <Stack.Screen
-          name="Bienvenida"
-          component={Bienvenida}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Home"
-          component={Home}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Login"
-          component={Login}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Signin"
-          component={Signin}
-          options={{ headerShown: false }}
-        />
-        {/* Cuando logueas exitosamente, vas a MainApp */}
-        <Stack.Screen 
-        name="MainApp" 
-        component={MainApp} 
-        options={{ headerShown: false }} />
-
-  //     </Stack.Navigator>
-  //   </NavigationContainer>
-  // </SafeAreaProvider>
-
-  )
+    <SafeAreaProvider>
+      <NavigationContainer>
+        <StatusBar style="auto"/>
+        <Stack.Navigator initialRouteName="Bienvenida">
+          <Stack.Screen
+            name="Bienvenida"
+            component={Bienvenida}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Home"
+            component={Home}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Login"
+            component={Login}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Signin"
+            component={Signin}
+            options={{ headerShown: false }}
+          />
+          {/* Cuando logueas exitosamente, vas a MainApp */}
+          <Stack.Screen 
+            name="MainApp" 
+            component={MainApp} 
+            options={{ headerShown: false }} 
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </SafeAreaProvider>
+  );
 }

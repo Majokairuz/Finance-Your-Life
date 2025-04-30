@@ -78,7 +78,6 @@ export default function App() {
   //     </Stack.Navigator>
   //   </NavigationContainer>
   // </SafeAreaProvider>
-  // <Ingresos />
-  // <DashboardScreen/>
+
   )
 }

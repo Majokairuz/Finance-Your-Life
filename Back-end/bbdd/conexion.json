@@ -1,13 +1,13 @@
 {
-    "type": "service_account",
-    "project_id": "finance-your-life",
-    "private_key_id": "744d417d910d9b3ad34f0cd0e9e0e91d2d3a7d3a",
-    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCiue88JTLxhZrY\nMlUKrNSTfBw7d4pGFVaFcjTFH12s0qj4RZl/2SpLR9J/hQgG5hjFKXuWGJC0AOed\nn1PoR/NjW711UDzDCJtWyizZK2EYLnsX5S06t38gE7/AWxJdQnJ1MN3WshBYnw5G\nr8ZOlnw75IQhOWymdoalYA4vvV1aEeo48BBcOeljgpBlauijzEppSNLS6ih58TkG\nljF5897k1coG3VLoWJLAtyX5qGpW8s62giyEf9YUSkAkW2+1Ggk3t4wpgsG4NtNG\nvErzY6kOwA+aT52zciMcDicVfxia3opQ2rY013JI3sfIgfxZRPFV01sqjorggVJT\n33AwF1KFAgMBAAECggEAAIwKeBYpoXnRFEbLodYXiC933X7LNwBlQDtVjfgEFJUw\nV4YQE+juOWmQAmOymRSsKfDsEu/SULXuEWZOCI3soEJFalCG1Kd162j5zhoz/UOn\noFEkTW5SczZShk+XeSg7FUWpK+vWUkR3D6eDSOkNTTwYE1I4orWpCP6Vd7L84Uuv\nThyV2TtORlMVYUBu5sr8OSdtEksKESmEFFxClrpn46id03knft5zCFH0+uMqkAAZ\niTV9+LEiw1SBFLxQK7bqYH84Tj3A5zuWjCimtu0WZT2BueT1s2Xm1vmXjxYbbvla\nYyELyzt2YdMJGiQKPR6R4Tg2GiomnfPofzZpjVmi0wKBgQDPd4sibZRvK/nOsyRy\n86QbnqTh+QnYtXioqDaHdxien6E5MPx6vLfsmXDmp0H5yJBVlIST+IWQ3lM6hnKA\n+oggJ5vo6nnOMCBZQ57JNyZItVxQEGQ09xbKakTJGqRxwneZQneWqItJmtHCaXxM\nP9XW0P/QY4aws+aL0X5QWUdWgwKBgQDIywhRqm1UWCtunPPuou0CzCq0WI2hMbqq\njJZK+ssgb08ziVyLdAN8/8IOvi+mAcp9+z9AwSy3ynkdnEo3ffuFr89OURAZe9qn\nUm++xzUQAeHA91wCj6yEEUbdKMu3eHFo9DDyVocBw8ss2HSaSdtXGaAQGL3pau8/\nxhKvUU+kVwKBgExO0u0Z0vPE///n4isptB24jzrSZ62+qZ+XJ19SDcsiOaGYg/T8\n/sVWdrFPqbOe8n+Xvd/TFAWB0KkBFJKeE32INA9KVvzgtLVAauHll/48PrTwIntc\nupQ+3Af/9aYl+el0Chpu6bRr7mUMeXxuKk/11XGneb36nXyl1EjnXZbTAoGAfboD\nv38Dbii3KU/FvcrutS26H6rDJAfLZjcZdGGNBwYrhY2hEQDXnlFW5XxYwY2liTTk\n6lsK8RoqtEvEfPK5p3/qQpOnjQ1sYBDSP5bktt02ymkYh9IGp7tZr+l3ha449QrS\nCyv65TP/6FiwylssqGE3RFz5rUpz/G6+DGDRiYkCgYEAiNdPu8pajAFyKkO3i/1t\nOw7mNISEx2zD03rskgXVUaOmVhSDKwBGyMJIoYJEovVtsuwDz2RfTnBE45KwX6p/\nRdT+F85jYvjjc0NPkt3pAFF78EvSuBxJkWQOMN/sXY/5UUFPhiQxkOOUb9rZfLHe\n/cYTRLRPIQByHiZlaCkfAM0=\n-----END PRIVATE KEY-----\n",
-    "client_email": "firebase-adminsdk-fbsvc@finance-your-life.iam.gserviceaccount.com",
-    "client_id": "115398464953795768741",
-    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-    "token_uri": "https://oauth2.googleapis.com/token",
-    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-fbsvc%40finance-your-life.iam.gserviceaccount.com",
-    "universe_domain": "googleapis.com"
-  }
+  "type": "service_account",
+  "project_id": "finance-your-life",
+  "private_key_id": "b8ca8d9d64e9ea43fdd42d8f56220d322ed9bcc3",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEuwIBADANBgkqhkiG9w0BAQEFAASCBKUwggShAgEAAoIBAQDAQEID3Ns+iCWG\na+qSsIv+yCTyf8lbhRSLHC5dQUSPerhw8s3xyJf4V6KswtxPS4wCaaewxISeMmvQ\nUtezBe6i+0udy33cEQGkpOg85ZRMiFrQ2rrRpv+yTkzAOuwO85oSm2h25Ebddqrh\ny8JER7iJnLp92oDCLInX3f+MiYpDlNbew/8PvHFAVNn2D2BeCNMGLzc8Yye2qTvs\nR0qtfby24TZLCvA7ThErRRHeP8VvFs1ohsuWO6UAG7jZtC27tHmEz0gDlX0FOZaL\nUGpm6OZct1v2vE8Gh9baj4tpJYlJZlUQdwkXy38l808D+ykW8JP6BBkKy2sgeADX\ntrIbevkfAgMBAAECgf9NSJaqjXD+yNprCX5Zaq5kAWuNl/5SiGGyPxLc05S0kXsq\nRumhUEXlWr7GpVKQyhGkMfMRuoTguRjpgGP5XukeqqpZRJoQEhFiUyTMoX3HgpCG\n+6MeOymPBDY/xTPFob5zy33+a3qn9fW7z1MFPe3Lgj05tO+kanBKi6/ri0DVB4Fq\nIpDzXsgQk+radJGvz6oyJsNRXpcnPUHefUwOge1fKwJT0FdH+N8r7V70CkzzIFvY\nOe8y5iRLoW69y40OvV5gDUV6n49Bv1LgoLLOeGzKt03SeBwfhOYMd2LPwHGZUSHO\n/Z1Dl/g1t3q8HuUDr3hwyv6tfFA63XtEcbqeLk0CgYEA+U6xpiuh1YC4ZD9MnASz\neCSgSBWnuEigEjBZ23wlIuUAYMpVSVQLk8949PbP0fdAuu2XIh4gdqjLWqHRuanN\nM84vPJ+rwFOPwaK33iMxBkrXYdfzyV8xys9Y1+HEBBmSUHgpU1cyiBl23M/PMCjN\n1dY5Mp4oUUl7sb7wX61yclMCgYEAxWl1F8gYDjElP04WXdvc2475fWKLFSmKAeIE\nbu6FfYNbKuV1JEoOh2PoB2YDHD7NxNo0CNdqAlMym8Zacj3PYovy8K6VIw5BvRzP\nKKH42qlpgYZJ+LrqcTT10jmO1QOlt1CEaKmedN4AscHcRInGhVgI4lO8qEP+kCzu\n3SPZnIUCgYEAuMxHTLh8/miqxcxR+jhV3BGyKZy7tRNIbBMhGFu+n04GaLiyXWeK\nKWeZ7mLhC29usOEarTSNtcdK7YSTlD80l1kXlKV6x1ZpcgwupN+LIHHrk2BjGfqR\nSxdFcMit5qgZ18IqR9eT4mSVwfncR4OHiCGCRm4Lzq1cnhW90f4cnncCgYBYGTL/\nNPW/R6FmufNzWY4bkZe3pAWLoSkMpA/0bY+3Lqq93v7C/iWzuBsxSg4zSbfMlNBJ\n7dBKT1SzffaZKwpk4S2+yTqXFWKzAatVZ8tF0fraqdJTJR9A/DCD69nZKDKJN26P\nwrqLTxOiQHCLSa0Fjv8P+eykbwuozdSfbcNMfQKBgGpVnbC8C6SG5smKTymSCxEG\naF3fDCyTD/UpYEzy1m30x5f7gtmaqiy6yfwcmDAadG4nwqL702qCT9k1ax4uu8SE\n2hPfRjiZfXa6W4IeXZF2Yo0+95UQ6Kc5mZO9KjJX3OSsFe0Jjp25WBLrbaEeG90q\nhUTlg/ZN4nvWjjuLKM/c\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-fbsvc@finance-your-life.iam.gserviceaccount.com",
+  "client_id": "115398464953795768741",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-fbsvc%40finance-your-life.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

@@ -9,7 +9,7 @@ def create_app():
     # NO INICIA LA BASE DE DATOS SI NO SE PUEDE CONECTAR A FIREBASE
     try:
         from .firebase import inicio_firebase
-        app.dp=inicio_firebase()
+        app.db=inicio_firebase()
     except RuntimeError as e:
         print(e)
         exit(1)

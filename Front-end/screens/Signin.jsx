@@ -95,11 +95,9 @@ const SignIn = ({navigation}) => {
             placeholder="Tipo Doc:"
             width="50%"
             options={[
-              { label: "C.C", value: "cc" },
-              { label: "T.I", value: "ti" },
-              { label: "C.E", value: "ce" },
-              { label: "P.A", value: "pa" },
-              { label: "NIT", value: "nit" }, 
+              { label: "C.C", value: "C.C" },
+              { label: "C.E", value: "C.E" },
+              { label: "NIT", value: "NIT" }, 
             ]}/>
 
 

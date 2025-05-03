@@ -6,10 +6,12 @@ def correo_valido(correo):
 def contraseña_segura(contraseña):
     if len(contraseña) < 8:
         return False
-    if not re.search(r"[A-Z]", contraseña):
+    if not re.search(r"[A-Z]", contraseña):  # Al menos una mayúscula
         return False
-    if not re.search(r"[a-z]", contraseña):
+    if not re.search(r"[a-z]", contraseña):  # Al menos una minúscula
         return False
-    if not re.search(r"[0-9]", contraseña):
+    if not re.search(r"[0-9]", contraseña):  # Al menos un número
+        return False
+    if not re.search(r"[!@#$%^&*()_+\-=\[\]{};':\"\\|,.<>/?]", contraseña):  # Caracter especial
         return False
     return True

@@ -1,0 +1,4 @@
+// Archivo Controller
+
+-En consultas con filter=FieldFilter recomendacion de google para que no quede obsoleto en cierto tiempo
+-Si necesitamos mas de un dato consultar toca hacer consultas aparte por cada dato a consultar o con indice compuesto esto no es recomendable

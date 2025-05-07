@@ -47,7 +47,7 @@ const SignIn = ({navigation}) => {
        });
 
       if (response.status === 201) {
-        Alert.alert("Exito", "Registro exitoso");
+        Alert.alert("Exito", "Te hemos enviado un correo de verificacion. Si no esta en la bandeja principal revisa el spam");
         navigation.navigate("Login");
       }
     } catch (error) {

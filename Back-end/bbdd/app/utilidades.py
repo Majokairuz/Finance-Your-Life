@@ -1,4 +1,11 @@
 import re
+from itsdangerous import URLSafeTimedSerializer
+import smtplib
+import ssl
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+import os
+
 
 def correo_valido(correo):
     return re.match(r"[^@]+@[^@]+\.[^@]+", correo)
@@ -15,3 +22,49 @@ def contraseña_segura(contraseña):
     if not re.search(r"[!@#$%^&*()_+\-=\[\]{};':\"\\|,.<>/?]", contraseña):  # Caracter especial
         return False
     return True
+
+def generar_token(correo, secret_key):
+    s = URLSafeTimedSerializer(secret_key)
+    return s.dumps(correo, salt='email-verificacion')
+
+def verificar_token(token, secret_key, max_age=3600):
+    s = URLSafeTimedSerializer(secret_key)
+    return s.loads(token, salt='email-verificacion', max_age=max_age)
+
+def enviar_correo(destinatario, nombre_usuario, token):
+    remitente = os.getenv("MAIL_USERNAME")
+    app_password = os.getenv("MAIL_APP_PASSWORD")
+    frontend_url = os.getenv("FRONTEND_URL", "http://localhost:8081")
+    enlace = f"{frontend_url}/verificar?token={token}"
+    
+    mensaje = MIMEMultipart()
+    mensaje['From'] = remitente
+    mensaje['To'] = destinatario
+    mensaje['Subject'] = "Verifica tu correo - Finance Your Life"
+
+    cuerpo = f"""
+    <html>
+    <body>
+        <p>Hola <strong>{nombre_usuario}</strong>,</p>
+        <p>Has creado una cuenta en <strong>Finance Your Life</strong>.</p>
+        <p>Por favor verifica tu correo haciendo clic en el siguiente enlace:</p>
+        <p><a href="{enlace}">Verificar correo</a></p>
+        <p>Este enlace caduca en 1 hora.</p>
+        <p>Si no hiciste este registro, ignora este mensaje.</p>
+
+        <p>Atentamente,<br>El equipo de SoftNova</p>
+        
+    </body>
+    </html>
+    """
+    mensaje.attach(MIMEText(cuerpo, 'html'))
+
+    try:
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as servidor:
+            servidor.login(remitente, app_password)
+            print("Conexión exitosa para envio de correo")
+            servidor.send_message(mensaje)
+    except Exception as e:
+        print(" Error al enviar correo:", e)
+        raise e
+

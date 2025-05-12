@@ -7,48 +7,58 @@ import {View,StyleSheet,Button,Image,ScrollView,Text} from "react-native";
 // Tus pantallas
 import Dashboard from './User/Dashboard';
 import Calendar from './User/Calendar';
-import Ingresos from './User/Ingresos';
+import Settings from './User/Settings';
 import Analytics from './User/Analytics'; // Crea este si quieres
+
+
+// Importa los íconos SVG
+import HomeIcon from '../assets/Icons/home-outline.svg';
+import AnalyticsIcon from '../assets/Icons/bar-chart-outline.svg';
+import CalendarIcon from '../assets/Icons/calendar-outline.svg';
+import ProfileIcon from '../assets/Icons/person-outline.svg';
+
 
 const Tab = createBottomTabNavigator();
 
 const MainApp = () => {
   return (
-<Tab.Navigator
-  initialRouteName="Dashboard"
-  screenOptions={({ route }) => ({
-    headerShown: false,
-    tabBarShowLabel: false,
-    tabBarStyle: styles.tabBar,
-    tabBarIcon: ({ focused, color, size }) => {
-      let iconName;
+    <Tab.Navigator
+      initialRouteName="Dashboard"
+      screenOptions={({ route }) => ({
+        headerShown: false,
+        tabBarShowLabel: false,
+        tabBarStyle: styles.tabBar,
+        tabBarIcon: ({ focused }) => {
+          let IconComponent;
 
-      if (route.name === 'Dashboard') {
-        iconName = focused ? 'home' : 'home-outline';
-      } else if (route.name === 'Analytics') {
-        iconName = focused ? 'bar-chart' : 'bar-chart-outline';
-      } else if (route.name === 'Calendar') {
-        iconName = focused ? 'calendar' : 'calendar-outline';
-      } else if (route.name === 'Ingresos') {
-        iconName = focused ? 'person' : 'person-outline';
-      } 
+          switch (route.name) {
+            case 'Dashboard':
+              IconComponent = HomeIcon;
+              break;
+            case 'Analytics':
+              IconComponent = AnalyticsIcon;
+              break;
+            case 'Calendar':
+              IconComponent = CalendarIcon;
+              break;
+            case 'Settings':
+              IconComponent = ProfileIcon;
+              break;
+          }
 
-      return (
-        <Ionicons
-          name={iconName}
-          size={29}
-          color={focused ? '#5271FF' : '#000000'}
-        />
-      );
-    },
-  })}
->
-<Tab.Screen name="Dashboard" component={Dashboard} />
-<Tab.Screen name="Analytics" component={Analytics} />
-<Tab.Screen name="Calendar" component={Calendar} />
-<Tab.Screen name="Ingresos" component={Ingresos} />
-
-</Tab.Navigator>
+          return (
+            <View style={focused ? styles.activeContainer : styles.inactiveContainer}>
+              <IconComponent width={36} height={36} color={focused ? '#ffffff' : '#000000'} />
+            </View>
+          );
+        },
+      })}
+    >
+      <Tab.Screen name="Dashboard" component={Dashboard} />
+      <Tab.Screen name="Analytics" component={Analytics} />
+      <Tab.Screen name="Calendar" component={Calendar} />
+      <Tab.Screen name="Settings" component={Settings} />
+    </Tab.Navigator>
   );
 };
 
@@ -66,11 +76,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-
-
-
-
-
-
+  },
+  activeContainer: {
+    backgroundColor: '#5271FF',
+    borderRadius: 50,
+    padding: 10,
+  },
+  inactiveContainer: {
+    padding: 10,
   },
 });

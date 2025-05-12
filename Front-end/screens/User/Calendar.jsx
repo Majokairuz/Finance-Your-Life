@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         height: '100%',
-        paddingTop: 80,
+        paddingTop: 60,
         // position: 'relative',
         backgroundColor: '#5271FF',
         // overflow: 'hidden',
@@ -88,6 +88,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         gap: 20,
         paddingTop: 20,
+        marginBottom: 50,
     },
 
     title: {

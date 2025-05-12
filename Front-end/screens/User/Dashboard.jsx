@@ -11,7 +11,7 @@ import Header from '../../components/Header/header';
 import DonutChart from '../../components/Graficas/DonutChart';
 
 
-const Dashboard = () => {
+const Dashboard = (navigation) => {
   const financialData = [
     { label: "Ingresos", value: 0.3, amount: 2500, color: "#5EC57E" },   // naranja
     { label: "Gastos", value: 0.5, amount: 1000, color: "#FF9359" },
@@ -25,8 +25,10 @@ const Dashboard = () => {
       <View style={styles.container_2}>
 
       {/* Gráfico circular */}
-      <DonutChart title="Mes Actual"
-        data={financialData} />
+
+         <DonutChart title="Mes Actual"
+           data={financialData} />
+
       {/* Botones de acción */}
       <View style={styles.container_3}>
         <IconButton texto="Inversión" name="bar-chart-outline" iconColor="#FFFFFF" size={30} backgroundColor="#5EC57E" width="50%"></IconButton>

@@ -1,38 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import { View, StyleSheet, Alert, ScrollView, Image } from 'react-native'
 import axios from 'axios'
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import { SafeAreaProvider } from "react-native-safe-area-context"
 // Inputs
-import Secundary from "../components/Inputs/InputSecundary";
-import SelectInput from "../components/Inputs/Select_Input";
+import Secundary from "../components/Inputs/InputSecundary"
+import SelectInput from "../components/Inputs/Select_Input"
 // Importar el componente de fecha
-import Fecha from "../components/Inputs/Fecha";
+import Fecha from "../components/Inputs/Fecha"
 
 // Butones
-import CustomBoton from "../components/Botones/CustomButton";
-import Cuerpo_Boton from "../components/Botones/Cuerpo_Boton";
+import CustomBoton from "../components/Botones/CustomButton"
+import Cuerpo_Boton from "../components/Botones/Cuerpo_Boton"
 // Textos
-import H1 from "../components/Titles/H1";
-import Cuerpo from "../components/Titles/Cuerpo";
+import H1 from "../components/Titles/H1"
+import Cuerpo from "../components/Titles/Cuerpo"
 // Imagenes
-import Google from "../assets/Google.png";
-import Facebook from "../assets/Facebook.png";
-import O from "../assets/O.png";
+import Google from "../assets/Google.png"
+import Facebook from "../assets/Facebook.png"
+import O from "../assets/O.png"
 
 const SignIn = ({navigation}) => {
   //Estados para los campos
-  const [Nombre, setNombre] = useState("");
-  const [TipoDocumento, setTipoDocumento] = useState("");
-  const [NumeroDocumento, setNumeroDocumento] = useState("");
-  const [FechaNacimiento, setFechaNacimiento] = useState("");
-  const [Correo, setCorreo] = useState("");
-  const [Contraseña, setContraseña] = useState("");
+  const [Nombre, setNombre] = useState("")
+  const [TipoDocumento, setTipoDocumento] = useState("")
+  const [NumeroDocumento, setNumeroDocumento] = useState("")
+  const [FechaNacimiento, setFechaNacimiento] = useState("")
+  const [Correo, setCorreo] = useState("")
+  const [Contraseña, setContraseña] = useState("")
 
    const handleRegister = async () => {
      // Validación de campos vacios
      if (!Nombre || !TipoDocumento || !NumeroDocumento || !FechaNacimiento  || !Correo  || !Contraseña) {                    
-       Alert.alert('Error', 'Todos los campos son obligatorios');
-       return;
+       Alert.alert('Error', 'Todos los campos son obligatorios')
+       return
      }
 
       try {
@@ -44,21 +44,52 @@ const SignIn = ({navigation}) => {
          Fecha_Nacimiento: FechaNacimiento,
          Correo: Correo,
          Contraseña: Contraseña
-       });
+       })
 
       if (response.status === 201) {
-        Alert.alert("Exito", "Te hemos enviado un correo de verificacion. Si no esta en la bandeja principal revisa el spam");
+        Alert.alert("Exito", "Te hemos enviado un correo de verificacion, esencial antes de generar un Inicio de sesion. Si no esta en la bandeja principal revisa el spam");
         navigation.navigate("Login");
       }
     } catch (error) {
-      if (error.response && error.response.status === 409) {
-        Alert.alert("Alerta", "Usuario existente");
-        navigation.navigate("Login");
-      } else {
-        alert("Error", error.message);
+      if(error.response){ 
+        const { status, data }= error.response
+        const mensaje = data?.error || "";
+
+        if (status === 400) {
+          if (mensaje.includes("Correo Invalido")){
+            Alert.alert("Error","Correo Invalido")
+        } 
+        else if (mensaje.includes("contraseña")) {
+            Alert.alert("Error","La contraseña debe tener mínimo 8 caracteres, una mayúscula, una minúscula , un número y un caracter especial")
+        } 
+        else if (mensaje.includes("Documento invalido")) {
+            Alert.alert("Error","Numero de Documento invalido")
+        } 
+        else if (mensaje.includes("Fecha")) {
+            Alert.alert("Error","Fecha de Nacimiento Invalida")
+        } 
+        else if (mensaje.includes("documento ya existe")) {
+            Alert.alert("Error","Numero de Documento ya existente")
+            navigation.navigate("Login");
+        } 
+        else if (mensaje.includes("Correo ya existe")) {
+            Alert.alert("Error","Correo ya existente")
+            navigation.navigate("Login");
+        } 
+        else if (mensaje.includes("correo de verificacion")) {
+            Alert.alert("Error","Error al enviar el correo de verificación")
+        } 
+        else{
+          Alert.alert("Error", mensaje || JSON.stringify(data))
+        }
       }
+    }  else{
+        Alert.alert("Error", error.message);
+        console.error("Error inesperado:", error);
+  }
+  }
+
     }
-  };
 
   return (
   <SafeAreaProvider>

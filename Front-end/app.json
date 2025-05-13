@@ -1,7 +1,10 @@
 {
   "expo": {
-    "name": "Finance-your-life",
-    "slug": "Finance-your-life",
+    "scheme": "0.0.0.0",
+    "deepLinking": true,
+    "platforms": ["ios", "android","web"],
+    "name": "FinanceYourLife",
+    "slug": "financeyourlife",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/Favicon-Transparente.png",

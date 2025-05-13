@@ -4,6 +4,7 @@ import smtplib
 import ssl
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from email.mime.image import MIMEImage
 import os
 
 
@@ -52,17 +53,27 @@ def enviar_correo(destinatario, nombre_usuario, token):
         <p>Este enlace caduca en 1 hora.</p>
         <p>Si no hiciste este registro, ignora este mensaje.</p>
 
-        <p>Atentamente,<br>El equipo de SoftNova</p>
+        <p>Atentamente,El equipo de SoftNova</p>
         
+        <img src="cid:logo_softnova" alt="Logo" width="150">
     </body>
     </html>
     """
     mensaje.attach(MIMEText(cuerpo, 'html'))
 
+    ruta_actual = os.path.dirname(os.path.abspath(__file__)) 
+    ruta_logo = os.path.abspath(os.path.join(ruta_actual, '../../../Front-end/assets/Favicon-Transparente.png'))
+    if os.path.exists(ruta_logo):
+        with open(ruta_logo, 'rb') as f:
+            imagen = MIMEImage(f.read())
+            imagen.add_header('Content-ID', '<logo_softnova>')
+            mensaje.attach(imagen)
+    else:
+        print(f"logo no encontrado, {ruta_logo}")
+    
     try:
         with smtplib.SMTP_SSL('smtp.gmail.com', 465) as servidor:
             servidor.login(remitente, app_password)
-            print("Conexión exitosa para envio de correo")
             servidor.send_message(mensaje)
     except Exception as e:
         print(" Error al enviar correo:", e)

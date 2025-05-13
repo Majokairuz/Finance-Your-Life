@@ -1,28 +1,76 @@
 
-import {View,StyleSheet,Button,Image,ScrollView} from "react-native";
-import { useState } from "react";
-import { NavigationContainer } from '@react-navigation/native';
-import { SafeAreaProvider } from "react-native-safe-area-context";
-
+import {View,StyleSheet,Alert,Button,Image,ScrollView} from "react-native"
+import { useState } from "react"
+import { NavigationContainer } from '@react-navigation/native'
+import { SafeAreaProvider } from "react-native-safe-area-context"
+import axios from 'axios'
 // Input
-import Secundary from "../components/Inputs/InputSecundary";
+import Secundary from "../components/Inputs/InputSecundary"
 // Butones
-import CustomButton from "../components/Botones/CustomButton";
-import Cuerpo_Boton from "../components/Botones/Cuerpo_Boton";
+import CustomButton from "../components/Botones/CustomButton"
+import Cuerpo_Boton from "../components/Botones/Cuerpo_Boton"
 // Textos
-import H1 from "../components/Titles/H1";
-import Cuerpo from "../components/Titles/Cuerpo";
+import H1 from "../components/Titles/H1"
+import Cuerpo from "../components/Titles/Cuerpo"
 // Iconos
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons"
 // Imagenes
-import Google from "../assets/Google.png";
-import Facebook from "../assets/Facebook.png";
-import O from "../assets/O.png";
+import Google from "../assets/Google.png"
+import Facebook from "../assets/Facebook.png"
+import O from "../assets/O.png"
 
 const Login = ({navigation}) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  //Estados para los campos
+  const [Correo, setCorreo] = useState("")
+  const [Contraseña, setContraseña] = useState("")
 
+    const handleLogin = async () =>{
+    // Validacion campos vacios
+    if (!Correo || !Contraseña){
+      Alert.alert('Error','Correo y Contraseña requeridos')
+      return
+      }
+
+      try{
+        const response = await axios.post ('http://0.0.0.0:8081/inicio',{
+          Correo:Correo,
+          Contraseña:Contraseña
+        })
+        
+        if (response.status === 200){
+          const { usuario } = response.data;
+          Alert.alert("Exito",`Bienvenido, ${usuario.Nombre}`)
+          navigation.navigate("MainApp")
+        }
+      }
+      catch (error){
+        if(error.response){
+          const { status, data }= error.response
+          const mensaje = data?.error || ""
+
+          if (status === 400 && mensaje.includes("Correo Invalido")) {
+              Alert.alert("Error","Correo Invalido")
+          } 
+          else if (status === 404 && mensaje.includes("Usuario no encontrado")) {
+              Alert.alert("Error","Usuario no encontrado")
+              navigation.navigate("Signin")
+          } 
+          else if (status === 403 && mensaje.includes("verificar tu correo")) {
+              Alert.alert("Error","Debes verificar tu correo antes de iniciar sesión")
+          } 
+          else if (status === 401 && mensaje.includes("Contraseña incorrecta")) {
+              Alert.alert("Error","Contraseña incorrecta")
+          }
+          else{
+              Alert.alert("Error", mensaje || JSON.stringify(data))
+          }
+        } else {
+            Alert.alert("Error", error.message);
+            console.error("Error inesperado:", error);
+        }
+      } 
+    }
+  
   return (
     <SafeAreaProvider>
     <ScrollView style={styles.container}>
@@ -38,7 +86,7 @@ const Login = ({navigation}) => {
         <Secundary
           placeholder="Correo:"
           value={email}
-          onChangeText={setEmail}
+          onChangeText={setCorreo}
           keyboardType="email-address"
           autoCapitalize="none"
           width={"100%"}
@@ -46,7 +94,7 @@ const Login = ({navigation}) => {
         <Secundary
           placeholder="Contraseña:"
           type={password}
-          onChangeText={setPassword}
+          onChangeText={setContraseña}
           SecureTextEntry={true}
           width={"100%"}
         ></Secundary>
@@ -55,8 +103,7 @@ const Login = ({navigation}) => {
           texto="Olvidaste tu contraseña?"
           color="#000000"
         ></Cuerpo_Boton>
-
-        <CustomButton texto="Iniciar Sesión" color="#FFFFFF" backgroundColor="#000000" onPress={() => navigation.navigate('MainApp')} ></CustomButton>
+        <CustomButton texto="Iniciar Sesión" color="#FFFFFF" backgroundColor="#000000" onPress={handleLogin} ></CustomButton> 
         <View style={styles.o}>
           <Image source={O}></Image>
         </View>
@@ -160,4 +207,3 @@ const styles = StyleSheet.create({
 });
 
 export default Login;
-

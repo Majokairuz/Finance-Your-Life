@@ -1,9 +1,10 @@
 from flask import Blueprint, request, jsonify
 from werkzeug.security import generate_password_hash
+from werkzeug.security import check_password_hash
 from flask import current_app
 from .utilidades import correo_valido, contraseña_segura, generar_token, verificar_token, enviar_correo
 from google.cloud.firestore_v1.base_query import FieldFilter
-from datetime import datetime
+from datetime import datetime, timezone
 import pytz
 
 auth_bp = Blueprint('auth', __name__)
@@ -14,14 +15,15 @@ auth_bp = Blueprint('auth', __name__)
 def registro():
     try:
         #current_app objeto global de Flask que te permite acceder al app original (el que tiene app.db que se encuentra en __init__) dentro del contexto de una solicitud, es decir, cuando se ejecuta un endpoint.
+        
         db = current_app.db 
         
         # Obtiene los datos enviados por el cliente en formato JSON
         data = request.json
-    
+        
         # Define los campos obligatorios para el registro
         requeridos = ['Nombre', 'Tipo_Documento', 'Numero_Documento', 'Fecha_Nacimiento', 'Correo', 'Contraseña']
-
+        
         # Verifica que todos los campos estén presentes y no estén vacíos
         if not all(field in data and data[field] for field in requeridos):
            return jsonify({"error": "Todos los campos son requeridos"}), 400
@@ -40,7 +42,7 @@ def registro():
         except ValueError:
             return jsonify({"error": "Formato inválido en Número de Documento"}), 400
         
-        # Poner un rango al campo para evitarnumeros de documentos no existentes 
+        # Poner un rango al campo para evitar numeros de documentos no existentes 
         if not (50_000_000 <= data['Numero_Documento'] <=2_000_000_000):
             return jsonify({"error":"Documento invalido"})
         
@@ -64,26 +66,28 @@ def registro():
         
         # Busca en la base de datos si ya existe un usuario con ese Documento:
         existenteC = db.collection('Usuarios').where(filter=FieldFilter('Correo', '==', data['Correo'] )).stream()
-
+        
         # Si encuentra al menos un correo igual
         if any(existenteC):
             return jsonify({"error": "Correo ya existe"}), 409
-
+        
         # Hashear la contraseña antes de guardarla
         data['Contraseña'] = generate_password_hash(data['Contraseña'])
         
         # Verificar que el usuario si sea el que este realizando el registro 
         data['Verificado'] = False
-
-        # Agrega el nuevo usuario a la colección 'usuarios' de Firestore
-        db.collection('Usuarios').add(data)
-
+        
         # Genera el token con el correo del usuario, usando la clave de la aplicacion 
         token = generar_token(data['Correo'], current_app.config['SECRET_KEY'])
         
-        # Envia el correo con los datos descritos
-        enviar_correo(data['Correo'], data['Nombre'], token)
-
+        try:
+            # Envia el correo con los datos descritos
+            enviar_correo(data['Correo'], data['Nombre'], token)
+        except Exception as e:
+            return jsonify({"error": "Error al enviar el correo de verificación"}), 500
+    
+        # Agrega el nuevo usuario a la colección 'usuarios' de Firestore
+        db.collection('Usuarios').add(data)
         return jsonify({"status": "success", "message": "Registro exitoso. Verifica tu correo para continuar."}), 201
     
     except Exception as e:
@@ -93,20 +97,15 @@ def registro():
 @auth_bp.route('/verificar',methods=['GET'])
 
 def verificar():
-
     # Obtiene el token que viene como parámetro en la URL
     token = request.args.get('token')
-
     try:
         # Funcion para verificar que el token sea valido y no halla expirado
         correo = verificar_token(token, current_app.config['SECRET_KEY'])
-        
         # Current_app objeto global de Flask que te permite acceder al app original
         db = current_app.db
-
         # Busca los usuarios que contengan el mismo correo, el cual deberia ser solo uno
-        usuarios = db.collection('Usuarios').where('Correo', '==', correo).stream()
-
+        usuarios = db.collection('Usuarios').where(filter=FieldFilter('Correo', '==', correo)).stream()
         # Por cada usuario encontrado actualiza el campo de verificado
         for usuario in usuarios:
             datos_usuario = usuario.to_dict()
@@ -116,10 +115,52 @@ def verificar():
                 usuario.reference.update({'Verificado': True})
                 return jsonify({"status": "success", "message": "Correo verificado exitosamente."})
                 
-    
     except Exception as e:
-        return jsonify({"error": "Token invalido o expirado"}), 400
+        return jsonify({"error": "Token expirado"}), 400
 
-    
 #Inicio de Sesion
-# @auth_bp.route('/inicio',methods=['POST'])
+@auth_bp.route('/inicio',methods=['POST'])
+def inicio():
+    try:
+        # Current_app objeto global de Flask que te permite acceder al app original
+        db = current_app.db
+        # Obtiene los datos enviados por el cliente en formato JSON
+        data=request.json
+        # Define los campos obligatorios para el registro
+        requeridos=['Correo', 'Contraseña']
+        # Verifica que todos los campos estén presentes y no estén vacíos
+        if not all(field in data and data[field] for field in requeridos):
+           return jsonify({"error": "Todos los campos son requeridos"}), 400
+        # Verificar correo valido
+        if not correo_valido(data['Correo']):
+           return jsonify({"error": "Correo inválido"}), 400
+        # Buscar si existe un usuario con ese correo
+        usuarios = db.collection('Usuarios').where(filter=FieldFilter('Correo', '==', data['Correo'] )).stream()
+        usuario_doc = next(usuarios, None)
+
+        # Verificar que se halla encontrado un usuario
+        if not usuario_doc:
+            return jsonify({"error": "Usuario no encontrado"}), 404
+        
+        usuario=usuario_doc.to_dict()
+
+        # Verificar si el correo fue verificado
+        if not usuario.get("Verificado", False):
+            return jsonify({"error": "Debes verificar tu correo antes de iniciar sesión"}), 403
+
+        # Verificar Contraseña
+        if not check_password_hash(usuario['Contraseña'], data['Contraseña']):
+            return jsonify({"error": "Contraseña incorrecta"}), 401
+        
+        # Retornar éxito y datos del usuario
+        return jsonify({
+            "status": "success",
+            "message": "Inicio de sesión exitoso",
+            "usuario": {
+                "Nombre": usuario['Nombre'],
+                "Correo": usuario['Correo']
+            }
+        }), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500

@@ -25,7 +25,7 @@ const MonthlySummaryChart = ({ data }) => {
             <View key={index} style={styles.legendItem}>
               <View style={[styles.dot, { backgroundColor: item.color }]} />
               <Text style={styles.label}>{item.label}</Text>
-              <Text style={styles.value}>{item.value}</Text>
+              <Text style={styles.value}>$ {item.value}</Text>
             </View>
           ))}
         </View>

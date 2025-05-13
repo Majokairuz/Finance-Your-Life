@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 // Titulos
 import H1 from "../../components/Titles/H1";
 import H3 from "../../components/Titles/H3";
+import Cuerpo from "../../components/Titles/Cuerpo";
 // Botones
 import ExpandableList from "../../components/Botones/ExpandibleList";
 import ExpandableBudgetList from "../../components/Botones/ExpandableBudgetList";
@@ -54,9 +55,14 @@ const Analytics = () => {
             <View style={styles.container_1}>
 
                 {/* Consejo del día */}
-
+                <View style={{display:"flex", flexDirection:"row",  marginBottom:5}}>
+                <Ionicons name="bulb-outline" size={30} color="#FFFFFF"></Ionicons>
+                <H3 texto="Consejo del día." color="#FFFFFF"></H3>
+                </View>
+                <Cuerpo texto="Recuerda que el ahorro es la clave para alcanzar tus metas financieras." color="#FFFFFF" textAlign="left"></Cuerpo>
                 {/* Titulo inferior */}
-                <H3 texto="Detalle por Presupuesto" color="#ffffff"></H3>
+                <View style={{marginTop:20,}}></View>
+                <H3 texto="Detalle por Categorias" color="#ffffff"></H3>
 
                 {/* Lista despegable */}
                 <ExpandableList title="Ingresos" data={ingresos} name="cash-outline"/>

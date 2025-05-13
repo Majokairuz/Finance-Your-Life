@@ -1,8 +1,8 @@
 import { Text, StyleSheet } from 'react-native';
 
-const Cuerpo = ({texto,color,fontSize,alert,marginBottom})=> {
+const Cuerpo = ({texto,color,fontSize,alert,marginBottom,textAlign})=> {
     return(
-        <Text style={[styles.cuerpo,{color},{fontSize},{marginBottom},alert]}>{texto}</Text>
+        <Text style={[styles.cuerpo,{color},{fontSize},{marginBottom},{textAlign:textAlign || 'center'},alert]}>{texto}</Text>
     )
 }
 const styles = StyleSheet.create({

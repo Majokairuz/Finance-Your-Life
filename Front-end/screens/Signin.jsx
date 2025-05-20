@@ -7,6 +7,8 @@ import Secundary from "../components/Inputs/InputSecundary"
 import SelectInput from "../components/Inputs/Select_Input"
 // Importar el componente de fecha
 import Fecha from "../components/Inputs/Fecha"
+// Contraseña
+import Password from "../components/Inputs/Password"
 
 // Butones
 import CustomBoton from "../components/Botones/CustomButton"
@@ -156,12 +158,13 @@ const SignIn = ({navigation}) => {
           width={"100%"}
         />
 
-        <Secundary
+        <Password
           placeholder="Contraseña:"
           value={Contraseña}
           onChangeText={setContraseña}
-          secureTextEntry
+          secureTextEntry={true}
           width={"100%"}
+          password={true}
         />
 
 

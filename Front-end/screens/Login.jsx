@@ -6,6 +6,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context"
 import axios from 'axios'
 // Input
 import Secundary from "../components/Inputs/InputSecundary"
+import Password from "../components/Inputs/Password"
 // Butones
 import CustomButton from "../components/Botones/CustomButton"
 import Cuerpo_Boton from "../components/Botones/Cuerpo_Boton"
@@ -66,7 +67,7 @@ const Login = ({navigation}) => {
           }
         } else {
             Alert.alert("Error", error.message);
-            console.error("Error inesperado:", error);
+            Alert.alert("Error inesperado:", error);
         }
       } 
     }
@@ -85,19 +86,19 @@ const Login = ({navigation}) => {
       <View style={styles.container_2}>
         <Secundary
           placeholder="Correo:"
-          value={email}
+          value={Correo}
           onChangeText={setCorreo}
           keyboardType="email-address"
           autoCapitalize="none"
           width={"100%"}
         ></Secundary>
-        <Secundary
+        <Password 
           placeholder="Contraseña:"
-          type={password}
+          type={Contraseña}
           onChangeText={setContraseña}
           SecureTextEntry={true}
           width={"100%"}
-        ></Secundary>
+        ></Password>
 
         <Cuerpo_Boton
           texto="Olvidaste tu contraseña?"

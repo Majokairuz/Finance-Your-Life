@@ -46,7 +46,7 @@ export default function App() {
     return null;
   }
 
-  const navigationRef=useRef()
+
 
   const linking={
     prefixes:['localhost://'], // Esquema base. El link que abrirá la app empezará así
@@ -58,47 +58,47 @@ export default function App() {
     }
   };
 
-  useEffect(()=>{ //Efecto para escuchar y manejar link
+  // useEffect(()=>{ //Efecto para escuchar y manejar link
 
-    //Funcion para verificar con el backend
-    const verificarToken = async (token) => {
-      try{
-        const link = await fetch (`http://localhost:8081/verificar?token=${token}`) //Llama el backend enviando el token
-        const data = await link.json() //Espera la respuesta JSON
-        // Verifica el status y asi mismo devuelve una respuesta
-        if (data.status === "sucess"){
-          Alert.alert("Exito","Correo Verificado exitosamente")
-          NavigationContainerRefContext.current?.navigate ("Login")
-        } else {
-          Alert.alert("Error", data.message || "Token invalido o expirado")
-          NavigationContainerRefContext.current?.navigate ("Signin")
-        }
-      }
-      catch(error){
-        Alert.alert("Error", "No se pudo conectar al servidor")
-        NavigationContainerRefContext.current?.navigate ("Signin")
-      } 
-    }
+  //   //Funcion para verificar con el backend
+  //   const verificarToken = async (token) => {
+  //     try{
+  //       const link = await fetch (`http://localhost:8081/verificar?token=${token}`) //Llama el backend enviando el token
+  //       const data = await link.json() //Espera la respuesta JSON
+  //       // Verifica el status y asi mismo devuelve una respuesta
+  //       if (data.status === "sucess"){
+  //         Alert.alert("Exito","Correo Verificado exitosamente")
+  //         NavigationContainerRefContext.current?.navigate ("Login")
+  //       } else {
+  //         Alert.alert("Error", data.message || "Token invalido o expirado")
+  //         NavigationContainerRefContext.current?.navigate ("Signin")
+  //       }
+  //     }
+  //     catch(error){
+  //       Alert.alert("Error", "No se pudo conectar al servidor")
+  //       NavigationContainerRefContext.current?.navigate ("Signin")
+  //     } 
+  //   }
 
-    const handleDeepLink = ({url})=>{
-      const parsed= Linking.parse(url) //Parsea o analiza  la url
-      if (parsed?.path === "verificar" && parsed.queryParams?.token){
-        verificarToken(parsed.queryParams.token) // Si es un link de verificacion, lo procesamos
-      }
-    }
+  //   const handleDeepLink = ({url})=>{
+  //     const parsed= Linking.parse(url) //Parsea o analiza  la url
+  //     if (parsed?.path === "verificar" && parsed.queryParams?.token){
+  //       verificarToken(parsed.queryParams.token) // Si es un link de verificacion, lo procesamos
+  //     }
+  //   }
   
-    const setupLinking = async () => {
-      const initialUrl = await Linking.getInitialURL() //obtiene el link con el que se abrio la app
-      if (initialUrl){
-        handleDeepLink({ url:initialUrl}) //Se procesa
-      }
+  //   const setupLinking = async () => {
+  //     const initialUrl = await Linking.getInitialURL() //obtiene el link con el que se abrio la app
+  //     if (initialUrl){
+  //       handleDeepLink({ url:initialUrl}) //Se procesa
+  //     }
   
-      const subscription= Linking.addEventListener('url', handleDeepLink)
-      return () => subscription.remove () // Se limpia cuando el componenete se desmonta
-    }
+  //     const subscription= Linking.addEventListener('url', handleDeepLink)
+  //     return () => subscription.remove () // Se limpia cuando el componenete se desmonta
+  //   }
   
-    setupLinking() //Se ejecuta la logica al montar la app
-  }, [])
+  //   setupLinking() //Se ejecuta la logica al montar la app
+  // }, [])
 
   
   
@@ -106,7 +106,7 @@ export default function App() {
 
   return (
     <SafeAreaProvider onLayout={onLayoutRootView}>
-      <NavigationContainer ref={navigationRef} linking={linking}>
+      <NavigationContainer>
         <StatusBar style="auto"/>
         <Stack.Navigator initialRouteName="Bienvenida">
           <Stack.Screen

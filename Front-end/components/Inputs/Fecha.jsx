@@ -55,7 +55,7 @@ const DateInput = ({ label, value, onChange = () => {}, maxDate }) => {
       >
         <View style={styles.row}>
           <Text style={[styles.inputText, !value && styles.placeholderText]}>
-            {value ? value.toISOString().split('T')[0] : 'Selecciona una fecha'}
+            {value ? value.toLocaleDateString('es-CO', { year: 'numeric', month: 'long', day: 'numeric' }) : 'Selecciona una fecha'}
           </Text>
         </View>
       </TouchableOpacity>
@@ -67,7 +67,7 @@ const DateInput = ({ label, value, onChange = () => {}, maxDate }) => {
         onConfirm={handleConfirm}
         onCancel={handleHideDatePicker}
         maximumDate={maxDate}
-        display='default'
+        display='inline'
         locale="es-ES"
         headerTextIOS="Selecciona una fecha"
         confirmTextIOS="Confirmar"
@@ -113,9 +113,12 @@ const styles = StyleSheet.create({
     width: '100%',
     fontSize: 16,
     fontFamily: 'PoppinsMedium',
+    fontWeight: '500',
     color: '#A3A3A3',
   },
   placeholderText: {
+    fontFamily: 'PoppinsMedium',
+    fontWeight: '500',
     color: '#A3A3A3',
   },
 });

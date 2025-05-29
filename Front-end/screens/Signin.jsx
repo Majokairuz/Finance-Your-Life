@@ -22,6 +22,15 @@ import Facebook from "../assets/Facebook.png"
 import O from "../assets/O.png"
 
 const SignIn = ({navigation}) => {
+
+  // Formato para la fecha
+  const formatDate = (date) => {
+  if (!date) return null;
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const year = date.getFullYear();
+  return `${day}-${month}-${year}`;
+};
   //Estados para los campos
   const [Nombre, setNombre] = useState("")
   const [TipoDocumento, setTipoDocumento] = useState("")
@@ -39,11 +48,11 @@ const SignIn = ({navigation}) => {
 
       try {
          //Envio de datos al backend
-        const response = await axios.post('http://0.0.0.0:8081/registro',{
+        const response = await axios.post('http://127.0.0.1:8081/registro',{
          Nombre: Nombre,
          Tipo_Documento: TipoDocumento,
          Numero_Documento: NumeroDocumento,
-         Fecha_Nacimiento: FechaNacimiento,
+         Fecha_Nacimiento: formatDate(FechaNacimiento),
          Correo: Correo,
          Contraseña: Contraseña
        })

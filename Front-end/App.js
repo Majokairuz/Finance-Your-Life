@@ -48,15 +48,15 @@ export default function App() {
 
 
 
-  const linking={
-    prefixes:['localhost://'], // Esquema base. El link que abrirá la app empezará así
-    config:{
-      screens:{
-        Login: 'Login', // Mapear localhost://Login a la pantalla Login (opcional)
-        Signin: 'Signin'
-      }
-    }
-  };
+  // const linking={
+  //   prefixes:['localhost://'], // Esquema base. El link que abrirá la app empezará así
+  //   config:{
+  //     screens:{
+  //       Login: 'Login', // Mapear localhost://Login a la pantalla Login (opcional)
+  //       Signin: 'Signin'
+  //     }
+  //   }
+  // };
 
   // useEffect(()=>{ //Efecto para escuchar y manejar link
 

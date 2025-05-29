@@ -35,7 +35,7 @@ def verificar_token(token, secret_key, max_age=3600):
 def enviar_correo(destinatario, nombre_usuario, token):
     remitente = os.getenv("MAIL_USERNAME")
     app_password = os.getenv("MAIL_APP_PASSWORD")
-    frontend_url = os.getenv("FRONTEND_URL", "http://localhost:8081")
+    frontend_url = os.getenv("FRONTEND_URL", "http://192.168.0.26:8081")
     enlace = f"{frontend_url}/verificar?token={token}"
     
     mensaje = MIMEMultipart()

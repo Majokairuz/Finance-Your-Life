@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: 'PoppinsMedium',
     fontWeight: '500',
-    color: '#A3A3A3',
+    color: '#000000',
   },
   placeholderText: {
     fontFamily: 'PoppinsMedium',

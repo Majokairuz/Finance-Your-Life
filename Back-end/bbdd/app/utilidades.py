@@ -24,34 +24,23 @@ def contraseña_segura(contraseña):
         return False
     return True
 
-def generar_token(correo, secret_key):
-    s = URLSafeTimedSerializer(secret_key)
-    return s.dumps(correo, salt='email-verificacion')
-
-def verificar_token(token, secret_key, max_age=3600):
-    s = URLSafeTimedSerializer(secret_key)
-    return s.loads(token, salt='email-verificacion', max_age=max_age)
-
 def enviar_correo(destinatario, nombre_usuario, token):
     remitente = os.getenv("MAIL_USERNAME")
     app_password = os.getenv("MAIL_APP_PASSWORD")
-    frontend_url = os.getenv("FRONTEND_URL", "http://192.168.0.26:8081")
-    enlace = f"{frontend_url}/verificar?token={token}"
     
     mensaje = MIMEMultipart()
     mensaje['From'] = remitente
     mensaje['To'] = destinatario
-    mensaje['Subject'] = "Verifica tu correo - Finance Your Life"
+    mensaje['Subject'] = "Creacion de cuenta - Finance Your Life"
 
     cuerpo = f"""
     <html>
     <body>
         <p>Hola <strong>{nombre_usuario}</strong>,</p>
         <p>Has creado una cuenta en <strong>Finance Your Life</strong>.</p>
-        <p>Por favor verifica tu correo haciendo clic en el siguiente enlace:</p>
-        <p><a href="{enlace}">Verificar correo</a></p>
-        <p>Este enlace caduca en 1 hora.</p>
-        <p>Si no hiciste este registro, ignora este mensaje.</p>
+        <p>Estamos contentos de que hallas preferido nuestra aplicacion.</p>
+
+        <p>Si no hiciste este registro, te invitamos a que respondas este correo.</p>
 
         <p>Atentamente,El equipo de SoftNova</p>
         
@@ -78,4 +67,9 @@ def enviar_correo(destinatario, nombre_usuario, token):
     except Exception as e:
         print(" Error al enviar correo:", e)
         raise e
+    
+def nombre_valido(nombre):
+    # Al menos 2 letras seguidas (no solo jjj, 111, etc.), solo letras y espacios
+    return bool(re.fullmatch(r"([A-Za-zÁÉÍÓÚáéíóúñÑ]{2,}\s?)+", nombre))
+
 

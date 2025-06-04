@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash
 from flask import current_app
-from .utilidades import correo_valido, contraseña_segura, generar_token, verificar_token, enviar_correo
+from .utilidades import correo_valido, contraseña_segura, generar_token, verificar_token, enviar_correo,nombre_valido
 from google.cloud.firestore_v1.base_query import FieldFilter
 from datetime import datetime, timezone
 import pytz
@@ -15,7 +15,6 @@ auth_bp = Blueprint('auth', __name__)
 def registro():
     try:
         #current_app objeto global de Flask que te permite acceder al app original (el que tiene app.db que se encuentra en __init__) dentro del contexto de una solicitud, es decir, cuando se ejecuta un endpoint.
-        
         db = current_app.db 
         
         # Obtiene los datos enviados por el cliente en formato JSON
@@ -76,6 +75,13 @@ def registro():
         
         # Verificar que el usuario si sea el que este realizando el registro 
         data['Verificado'] = False
+
+        # Poner las primeras letras de cada nombre este en mayuscula 
+        data['Nombre'] = data['Nombre'].strip().title()
+
+        # Verificar que el nombre no sea por ejemplo jjj si no que sean nombres verdaderos
+        if not nombre_valido(data['Nombre']):
+            return jsonify({"error": "Nombre inválido. Usa solo letras y al menos dos por palabra."}), 400
         
         # Genera el token con el correo del usuario, usando la clave de la aplicacion 
         token = generar_token(data['Correo'], current_app.config['SECRET_KEY'])
@@ -93,30 +99,7 @@ def registro():
     except Exception as e:
         return jsonify({"error": str(e)}), 400
     
-# Verificar que el token se active
-@auth_bp.route('/verificar',methods=['GET'])
 
-def verificar():
-    # Obtiene el token que viene como parámetro en la URL
-    token = request.args.get('token')
-    try:
-        # Funcion para verificar que el token sea valido y no halla expirado
-        correo = verificar_token(token, current_app.config['SECRET_KEY'])
-        # Current_app objeto global de Flask que te permite acceder al app original
-        db = current_app.db
-        # Busca los usuarios que contengan el mismo correo, el cual deberia ser solo uno
-        usuarios = db.collection('Usuarios').where(filter=FieldFilter('Correo', '==', correo)).stream()
-        # Por cada usuario encontrado actualiza el campo de verificado
-        for usuario in usuarios:
-            datos_usuario = usuario.to_dict()
-            if datos_usuario.get('Verificado', True):
-                return jsonify({"status": "error", "message": "El correo ya ha sido verificado anteriormente."}), 400
-            else:
-                usuario.reference.update({'Verificado': True})
-                return jsonify({"status": "success", "message": "Correo verificado exitosamente."})
-                
-    except Exception as e:
-        return jsonify({"error": "Token expirado"}), 400
 
 #Inicio de Sesion
 @auth_bp.route('/inicio',methods=['POST'])

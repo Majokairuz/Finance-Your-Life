@@ -119,6 +119,8 @@ const SignIn = ({navigation}) => {
           value={Nombre}
           onChangeText={setNombre}
           width={"100%"}
+          contextMenuHidden={true}
+          selectTextOnFocus={false}
         />
 
 
@@ -148,6 +150,8 @@ const SignIn = ({navigation}) => {
             value={NumeroDocumento}
             onChangeText={setNumeroDocumento}
             width="50%"
+            contextMenuHidden={true}
+            selectTextOnFocus={false}
           />
         </View>
 
@@ -157,6 +161,8 @@ const SignIn = ({navigation}) => {
           onChange={setFechaNacimiento}
           maxDate={new Date()} // No permite fechas futuras
           width="100%"
+          contextMenuHidden={true}
+          selectTextOnFocus={false}
           />
 
         <Secundary
@@ -165,6 +171,8 @@ const SignIn = ({navigation}) => {
           keyboardType="email-address"
           onChangeText={setCorreo}
           width={"100%"}
+          contextMenuHidden={true}
+          selectTextOnFocus={false}
         />
 
         <Password
@@ -174,6 +182,8 @@ const SignIn = ({navigation}) => {
           secureTextEntry={true}
           width={"100%"}
           password={true}
+          contextMenuHidden={true}
+          selectTextOnFocus={false}
         />
 
 

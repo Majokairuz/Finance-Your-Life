@@ -30,7 +30,7 @@ const SignIn = ({navigation}) => {
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const year = date.getFullYear();
   return `${day}-${month}-${year}`;
-};
+  };
   //Estados para los campos
   const [Nombre, setNombre] = useState("")
   const [TipoDocumento, setTipoDocumento] = useState("")
@@ -39,68 +39,59 @@ const SignIn = ({navigation}) => {
   const [Correo, setCorreo] = useState("")
   const [Contraseña, setContraseña] = useState("")
 
-   const handleRegister = async () => {
-     // Validación de campos vacios
-     if (!Nombre || !TipoDocumento || !NumeroDocumento || !FechaNacimiento  || !Correo  || !Contraseña) {                    
-       Alert.alert('Error', 'Todos los campos son obligatorios')
-       return
-     }
+  const handleRegister = async () => {
+    // Validación de campos vacios
+    if (!Nombre || !TipoDocumento || !NumeroDocumento || !FechaNacimiento  || !Correo  || !Contraseña) {                    
+      Alert.alert('Error', 'Todos los campos son obligatorios')
+      return
+    }
 
-      try {
-         //Envio de datos al backend
-        const response = await axios.post('http://127.0.0.1:8081/registro',{
-         Nombre: Nombre,
-         Tipo_Documento: TipoDocumento,
-         Numero_Documento: NumeroDocumento,
-         Fecha_Nacimiento: formatDate(FechaNacimiento),
-         Correo: Correo,
-         Contraseña: Contraseña
-       })
-
+    try{
+      //Envio de datos al backend
+      const response = await axios.post('http://192.168.1.39:8080/registro',{
+        Nombre: Nombre,
+        Tipo_Documento: TipoDocumento,
+        Numero_Documento: NumeroDocumento,
+        Fecha_Nacimiento: formatDate(FechaNacimiento),
+        Correo: Correo,
+        Contraseña: Contraseña
+      })
+      
       if (response.status === 201) {
-        Alert.alert("Exito", "Te hemos enviado un correo de verificacion, esencial antes de generar un Inicio de sesion. Si no esta en la bandeja principal revisa el spam");
+        Alert.alert("Exito", "Tu usuario ha sido creado con exito, gracias por elegirnos.");
         navigation.navigate("Login");
       }
-    } catch (error) {
+    } 
+
+    catch (error) {
       if(error.response){ 
         const { status, data }= error.response
         const mensaje = data?.error || "";
 
         if (status === 400) {
-          if (mensaje.includes("Correo Invalido")){
-            Alert.alert("Error","Correo Invalido")
-        } 
-        else if (mensaje.includes("contraseña")) {
-            Alert.alert("Error","La contraseña debe tener mínimo 8 caracteres, una mayúscula, una minúscula , un número y un caracter especial")
-        } 
-        else if (mensaje.includes("Documento invalido")) {
-            Alert.alert("Error","Numero de Documento invalido")
-        } 
-        else if (mensaje.includes("Fecha")) {
-            Alert.alert("Error","Fecha de Nacimiento Invalida")
-        } 
-        else if (mensaje.includes("documento ya existe")) {
-            Alert.alert("Error","Numero de Documento ya existente")
+          Alert.alert ("Error",mensaje)
+          console.log(mensaje)
+        }
+        else if (status === 409) {
+            Alert.alert("Error",mensaje)
+            console.log(mensaje)
             navigation.navigate("Login");
         } 
-        else if (mensaje.includes("Correo ya existe")) {
-            Alert.alert("Error","Correo ya existente")
-            navigation.navigate("Login");
-        } 
-        else if (mensaje.includes("correo de verificacion")) {
-            Alert.alert("Error","Error al enviar el correo de verificación")
-        } 
-        else{
-          Alert.alert("Error", mensaje || JSON.stringify(data))
+        else if (status === 500) {
+            Alert.alert("Error",mensaje)
+            console.log(mensaje)
+        }
+        else {
+        Alert.alert("Error", mensaje);
+        console.log(mensaje)
         }
       }
-    }  else{
+      else{
         Alert.alert("Error", error.message);
         console.error("Error inesperado:", error);
+      }
+    }  
   }
-  }
-
-    }
 
   return (
   <SafeAreaProvider>
@@ -145,13 +136,16 @@ const SignIn = ({navigation}) => {
             ]}/>
 
 
+
           <Secundary
             placeholder="N. Doc:"
             value={NumeroDocumento}
-            onChangeText={setNumeroDocumento}
+            onChangeText={ (text)=> {const numeros = text.replace (/[^0-9]/g, '')
+            setNumeroDocumento(numeros)}}
             width="50%"
             contextMenuHidden={true}
             selectTextOnFocus={false}
+            keyboardType="numeric"
           />
         </View>
 

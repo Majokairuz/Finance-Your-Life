@@ -1,12 +1,37 @@
 import re
-from itsdangerous import URLSafeTimedSerializer
 import smtplib
-import ssl
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.image import MIMEImage
 import os
 
+def nombre_valido(nombre):
+    # Quitar espacios sobrantes
+    nombre = ' '.join(nombre.strip().split())
+
+    # Verificar que haya al menos dos palabras
+    palabras = nombre.split()
+    if len(palabras) < 2:
+        return False
+
+    for palabra in palabras:
+        # Solo letras permitidas (mayúsculas/minúsculas y acentos)
+        if not re.fullmatch(r"[A-Za-zÁÉÍÓÚÜÑáéíóúüñ]{2,}", palabra):
+            return False
+
+        # Evitar repeticiones excesivas de un solo carácter (ej: jjjj, aaa)
+        if re.search(r"(.)\1{2,}", palabra):
+            return False
+
+        # Evitar palabras con 2 letras distintas repetidas (ej: jhjjhj, kakaka)
+        if len(set(palabra)) <= 3 and len(palabra) >= 5:
+            return False
+
+        # Evitar combinaciones como "jjhh", "ppkk", etc.
+        if re.fullmatch(r"([a-zA-ZñÑáéíóúÁÉÍÓÚ]{2})\1+", palabra):
+            return False
+
+    return True
 
 def correo_valido(correo):
     return re.match(r"[^@]+@[^@]+\.[^@]+", correo)
@@ -24,7 +49,7 @@ def contraseña_segura(contraseña):
         return False
     return True
 
-def enviar_correo(destinatario, nombre_usuario, token):
+def enviar_correo(destinatario, nombre_usuario):
     remitente = os.getenv("MAIL_USERNAME")
     app_password = os.getenv("MAIL_APP_PASSWORD")
     
@@ -68,8 +93,3 @@ def enviar_correo(destinatario, nombre_usuario, token):
         print(" Error al enviar correo:", e)
         raise e
     
-def nombre_valido(nombre):
-    # Al menos 2 letras seguidas (no solo jjj, 111, etc.), solo letras y espacios
-    return bool(re.fullmatch(r"([A-Za-zÁÉÍÓÚáéíóúñÑ]{2,}\s?)+", nombre))
-
-

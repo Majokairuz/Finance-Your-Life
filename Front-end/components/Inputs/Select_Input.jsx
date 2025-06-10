@@ -12,7 +12,7 @@ const SelectInput = ({
 
   const handleSelect = (item) => {
     setSelectedLabel(item.label); // Cambia el texto mostrado
-    onValueChange(item); // Devuelve el objeto seleccionado al padre
+    onValueChange(item.value); // Devuelve el objeto seleccionado al padre
     setModalVisible(false); // Cierra el modal
   };
 

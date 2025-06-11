@@ -55,7 +55,7 @@ const DateInput = ({ label, value, onChange = () => {}, maxDate }) => {
       >
         <View style={styles.row}>
           <Text style={[styles.inputText, !value && styles.placeholderText]}>
-            {value ? value.toLocaleDateString('es-CO', { year: 'numeric', month: 'long', day: 'numeric' }) : 'Selecciona una fecha'}
+            {value ? value.toLocaleDateString('es-CO', { year: 'numeric', month: 'long', day: 'numeric' }) : 'Fecha de Nacimiento'}
           </Text>
         </View>
       </TouchableOpacity>

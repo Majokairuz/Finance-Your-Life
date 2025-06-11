@@ -90,6 +90,6 @@ npx expo start
 ### Backend
 cd backend
 cd bbdd
-pip install -r requirements.txt
+pip install -r requeriments.txt
 
 

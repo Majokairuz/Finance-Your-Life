@@ -1,9 +1,10 @@
-import {TouchableOpacity, Text, View, StyleSheet} from 'react-native';
+import {TouchableOpacity, Text, View, StyleSheet, ActivityIndicator} from 'react-native';
 
-const BotonPrimary = ({texto, onPress, color,backgroundColor}) => {
+const BotonPrimary = ({texto, onPress, title, loading, disabled,color,backgroundColor}) => {
+    const isDisabled = disabled || loading;
     return(
-        <TouchableOpacity onPress={onPress} style={[styles.primary,{backgroundColor: backgroundColor || '#5271FF'}]}>
-            <Text style={[styles.texto, {color: color || '#FFFFFF'}]}>{texto}</Text>
+        <TouchableOpacity onPress={onPress} disabled={isDisabled} style={[styles.primary,{backgroundColor: backgroundColor || '#5271FF'}]}>
+            {loading ? (<ActivityIndicator color={color || '#FFFFFF'}/>):(<Text style={[styles.texto, {color: color || '#FFFFFF'}]}>{texto}</Text>)}
         </TouchableOpacity>
     )
 }

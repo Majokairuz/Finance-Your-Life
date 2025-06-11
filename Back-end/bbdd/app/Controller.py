@@ -92,12 +92,13 @@ def registro():
         # Poner las primeras letras de cada nombre este en mayuscula 
         data['Nombre'] = data['Nombre'].strip().title()
 
-        
-             
         try:
             # Envia el correo con los datos descritos
             enviar_correo(data['Correo'], data['Nombre'])
-        except Exception as e:
+            #Si no llega a encontrar el correo 
+        except ValueError as ve:
+            return jsonify({"error": str(ve)}), 400
+        except Exception:
             return jsonify({"error": "Error al enviar el correo"}), 500
     
         # Agrega el nuevo usuario a la colección 'usuarios' de Firestore
@@ -124,7 +125,7 @@ def inicio():
            return jsonify({"error": "Todos los campos son requeridos"}), 400
         # Verificar correo valido
         if not correo_valido(data['Correo']):
-           return jsonify({"error": "Correo inválido"}), 400
+            return jsonify({"error": "Correo inválido"}), 400
         # Buscar si existe un usuario con ese correo
         usuarios = db.collection('Usuarios').where(filter=FieldFilter('Correo', '==', data['Correo'] )).stream()
         usuario_doc = next(usuarios, None)
@@ -134,10 +135,6 @@ def inicio():
             return jsonify({"error": "Usuario no encontrado"}), 404
         
         usuario=usuario_doc.to_dict()
-
-        # Verificar si el correo fue verificado
-        if not usuario.get("Verificado", False):
-            return jsonify({"error": "Debes verificar tu correo antes de iniciar sesión"}), 403
 
         # Verificar Contraseña
         if not check_password_hash(usuario['Contraseña'], data['Contraseña']):

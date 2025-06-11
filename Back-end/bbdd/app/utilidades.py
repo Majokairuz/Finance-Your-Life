@@ -4,6 +4,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.image import MIMEImage
 import os
+import requests
 
 def nombre_valido(nombre):
     # Quitar espacios sobrantes
@@ -49,7 +50,22 @@ def contraseña_segura(contraseña):
         return False
     return True
 
+def verificar_destino(correo):
+    api_key= os.getenv("MAILBOXLAYER_KEY")
+    url = f"http://apilayer.net/api/check?access_key={api_key}&email={correo}&smtp=1&format=1"
+    try:
+        response = requests.get(url)
+        resultado = response.json()
+        print("Resultado verificación correo:", resultado)
+        return resultado.get("smtp_check", False)
+    except Exception as e:
+        print("Error verificando correo:", e)
+        return False
+    
 def enviar_correo(destinatario, nombre_usuario):
+    if not verificar_destino(destinatario):
+        raise ValueError("La dirección de correo no existe o no es entregable")
+    
     remitente = os.getenv("MAIL_USERNAME")
     app_password = os.getenv("MAIL_APP_PASSWORD")
     

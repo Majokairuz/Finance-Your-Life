@@ -56,9 +56,6 @@ const Login = ({navigation}) => {
               Alert.alert("Error","Usuario no encontrado")
               navigation.navigate("Signin")
           } 
-          else if (status === 403 && mensaje.includes("verificar tu correo")) {
-              Alert.alert("Error","Debes verificar tu correo antes de iniciar sesión")
-          } 
           else if (status === 401 && mensaje.includes("Contraseña incorrecta")) {
               Alert.alert("Error","Contraseña incorrecta")
           }

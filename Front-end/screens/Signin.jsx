@@ -74,8 +74,7 @@ const SignIn = ({navigation}) => {
         }
         else if (status === 409) {
             Alert.alert("Error",mensaje)
-            console.log(mensaje)
-            navigation.navigate("Login");
+            console.log(mensaje) 
         } 
         else if (status === 500) {
             Alert.alert("Error",mensaje)

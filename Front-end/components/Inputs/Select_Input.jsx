@@ -63,7 +63,7 @@ const SelectInput = ({
 
 const styles = StyleSheet.create({
   container: {
-    width: '50%',
+    width: '100%',
   },
   selector: {
     height: 65,

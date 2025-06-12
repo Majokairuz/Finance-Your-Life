@@ -13,7 +13,7 @@ const InputSecondary= ({
 }) => {
   return (
     <TextInput
-      style={styles.input}
+      style={[styles.input, {width}, style]}
       placeholder={placeholder}
       value={value}
       onChangeText={onChangeText}

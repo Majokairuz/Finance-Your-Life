@@ -21,49 +21,69 @@ def registro():
         data = request.json
         
         # Define los campos obligatorios para el registro
-        requeridos = ['Nombre', 'Tipo_Documento', 'Numero_Documento', 'Fecha_Nacimiento', 'Correo', 'Contraseña']
+        requeridos_generales = ['Nombre', 'Tipo_Documento', 'Numero_Documento', 'Correo', 'Contraseña']
         
         # Verifica que todos los campos estén presentes y no estén vacíos
-        if not all(field in data and data[field] for field in requeridos):
-           return jsonify({"Error": "Todos los campos son obligatorios"}), 400
+        if not all(field in data and data[field] for field in requeridos_generales):
+           return jsonify({"Error": "Todos los campos son obligatorios."}), 400
         
         # Verificar que el nombre no sea por ejemplo jjj si no que sean nombres verdaderos
-        if not nombre_valido(data['Nombre']):
-            return jsonify({"error": "Nombre inválido.Debes poner al menos dos nombres reales"}), 400
+        if data ['Tipo_Documento'] != 'NIT': 
+            if not nombre_valido(data['Nombre']):
+                return jsonify({"error": "Nombre inválido.Debes poner al menos dos nombres reales."}), 400
+        
+        if data['Tipo_Documento'] == 'NIT':
+            if 'Numero_Verificacion' not in data or not data['Numero_Verificacion']:
+                return jsonify ({"error":"El campo de Numero de Verificacion es Obligatorio"}), 400
+            
+            try:
+                data['Numero_Verificacion']=int(data['Numero_Verificacion'])
+            except ValueError:
+                return jsonify({"error":"Formato inválido en Número de Verificacion, ingresa solo numeros."}), 400
+        
+            if not (0 <= data['Numero_Verificacion'] <=9):
+                return jsonify({"error":"Número de Verificacion inválido."}), 400
+        
+            if 'Fecha_Nacimiento' in data and data['Fecha_Nacimiento']:
+                return jsonify({"error":"NIT no debe llevar fecha de nacimiento"}), 400
+        else:
+            if 'Fecha_Nacimiento' not in data or not data['Fecha_Nacimiento']:
+                return jsonify({"error":"La Fecha de NAcimiento es obligatoria"}), 400
+            if 'Numero_Verificacion' in data and data['Numero_Verificacion']:
+                return jsonify({"error":"Solo NIT tiene numero de verificacion"}), 400
+             # Conversión de Fecha Nacimiento a Timestamp
+            try:
+                fecha_local = datetime.strptime(data['Fecha_Nacimiento'], '%d-%m-%Y')  # Convertir string a datetime
+            
+                # Asumir que viene en hora local (ej. Colombia, UTC-5)
+                zona_local = pytz.timezone('America/Bogota')  # Cambia según tu país
+                fecha_con_tz = zona_local.localize(fecha_local)
+            
+                # Validar que tenga 18 años
+                ahora = datetime.now (zona_local)
+                edad_minima = ahora - timedelta(days=18*365.25)
+                if fecha_con_tz > edad_minima:
+                    return jsonify ({"error":"No tienes la edad permitida para el uso de la aplicación."}),400
+            
+                # Convertir a UTC antes de guardar
+                data['Fecha_Nacimiento'] = fecha_con_tz.astimezone(pytz.utc)
+
+            except ValueError:
+                return jsonify({"error": "Formato inválido en Fecha de Nacimiento."}), 400
         
         # Conversión de Numero de Documento a Numero(INT)
         try:
             data['Numero_Documento'] = int(data['Numero_Documento'])  # Conversión a número entero
         except ValueError:
-            return jsonify({"error":"Formato inválido en Número de Documento, ingresa solo numeros"}), 400
+            return jsonify({"error":"Formato inválido en Número de Documento, ingresa solo numeros."}), 400
         
         # Poner un rango al campo para evitar numeros de documentos no existentes 
         if not (10_000_000 <= data['Numero_Documento'] <=9_000_000_000):
-            return jsonify({"error":"Documento invalido, si es un error envianos un correo"}), 400
-        
-        # Conversión de Fecha Nacimiento a Timestamp
-        try:
-            fecha_local = datetime.strptime(data['Fecha_Nacimiento'], '%d-%m-%Y')  # Convertir string a datetime
-            
-            # Asumir que viene en hora local (ej. Colombia, UTC-5)
-            zona_local = pytz.timezone('America/Bogota')  # Cambia según tu país
-            fecha_con_tz = zona_local.localize(fecha_local)
-            
-            # Validar que tenga 18 años
-            ahora = datetime.now (zona_local)
-            edad_minima = ahora - timedelta(days=18*365.25)
-            if fecha_con_tz > edad_minima:
-                return jsonify ({"error":"No tienes la edad permitida"}),400
-            
-            # Convertir a UTC antes de guardar
-            data['Fecha_Nacimiento'] = fecha_con_tz.astimezone(pytz.utc)
-
-        except ValueError:
-            return jsonify({"error": "Formato inválido en Fecha de Nacimiento"}), 400
+            return jsonify({"error":"Número de Documento inválido."}), 400
         
         # Verificar correo valido
         if not correo_valido(data['Correo']):
-           return jsonify({"error":"Correo Invalido, verificalo."}), 400
+           return jsonify({"error":"Dirección de Correo Inválida, verificala."}), 400
         
         # Verificar contraseña segura
         if not contraseña_segura(data['Contraseña']):
@@ -72,16 +92,9 @@ def registro():
         # Busca en la base de datos si ya existe un usuario con ese Documento
         existente = any(db.collection('Usuarios').where(filter=FieldFilter('Numero_Documento', '==', data['Numero_Documento'] )).stream())
 
-        # Busca en la base de datos si ya existe un usuario con ese Documento:
-        existenteC = any(db.collection('Usuarios').where(filter=FieldFilter('Correo', '==', data['Correo'] )).stream())
-        
         # Verificar que informacion ya existe
-        if existente and existenteC:
-            return jsonify({"error": "Numero de Documento y Correo ya existentes.Inicia Sesion"}), 409
-        elif existente:
-            return jsonify({"error": "Numero de documento ya existente.Inicia Sesion"}), 409
-        elif existenteC:
-            return jsonify({"error": "Correo ya existente.Inicia Sesion"}), 409
+        if existente:
+            return jsonify({"error": "Ya tienes un usuario creado.Inicia Sesion"}), 409
         
         # Hashear la contraseña antes de guardarla
         data['Contraseña'] = generate_password_hash(data['Contraseña'])

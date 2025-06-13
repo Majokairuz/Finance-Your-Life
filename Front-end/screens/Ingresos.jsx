@@ -1,82 +1,223 @@
-import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, ScrollView } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import "../global.css"
+import React, { useState } from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Alert,
+  Modal,
+} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
-/**
- * Componente para ingresar uno o varios ingresos mensuales con NativeWind (Tailwind CSS para React Native).
- */
-const IncomeForm = () => {
-  const [incomes, setIncomes] = useState([
-    { amount: "", category: "Salario" },
-  ]);
+const Ingresos = () => {
+  const [monto, setMonto] = useState('');
+  const [categoria, setCategoria] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
+  const navigation = useNavigation();
 
-  const categories = ["Salario", "Comisiones", "Freelance", "Otros"];
+  const categorias = ['Salario', 'Comisiones', 'Freelance', 'Otros'];
 
-  const handleAddIncome = () => {
-    setIncomes([...incomes, { amount: "", category: "Salario" }]);
-  };
+  const handleGuardar = () => {
+    if (!monto || !categoria) {
+      Alert.alert('Completa todos los campos');
+      return;
+    }
 
-  const handleInputChange = (index, field, value) => {
-    const newIncomes = [...incomes];
-    newIncomes[index][field] = value;
-    setIncomes(newIncomes);
-  };
+    // Aquí podrías guardar el ingreso a Firebase antes del modal
 
-  const handleSave = () => {
-    console.log("Ingresos guardados:", incomes);
+    setModalVisible(true); // Mostrar el modal de confirmación
   };
 
   return (
-    <ScrollView className="flex-1 bg-[#5B6EFF] px-6 pt-12 pb-4">
-      <Text className="text-white text-xl font-semibold mb-2">👋 Hola, Majo</Text>
-      <Text className="text-white text-3xl font-bold mb-6">Ingresos</Text>
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.saludo}>👋 Hola, Majo</Text>
+      </View>
 
-      {incomes.map((income, index) => (
-        <View key={index} className="mb-6">
-          <TextInput
-            className="bg-white rounded-lg p-3 mb-4"
-            placeholder="Monto mensual: $"
-            keyboardType="numeric"
-            value={income.amount}
-            onChangeText={(value) => handleInputChange(index, "amount", value)}
-          />
+      <Text style={styles.titulo}>Ingresos</Text>
 
-          <Text className="text-white font-medium mb-2">Selecciona una categoría:</Text>
-          <View className="flex-row flex-wrap gap-2 mb-2">
-            {categories.map((cat) => (
-              <TouchableOpacity
-                key={cat}
-                className={`px-4 py-2 rounded-full ${income.category === cat ? "bg-white" : "bg-blue-300"}`}
-                onPress={() => handleInputChange(index, "category", cat)}
-              >
-                <Text className={`font-medium ${income.category === cat ? "text-black" : "text-white"}`}>{cat}</Text>
-              </TouchableOpacity>
-            ))}
+      <TextInput
+        style={styles.input}
+        placeholder="Monto mensual: $"
+        keyboardType="numeric"
+        value={monto}
+        onChangeText={setMonto}
+      />
+
+      <Text style={styles.subtitulo}>Selecciona una categoría:</Text>
+      <View style={styles.categorias}>
+        {categorias.map((cat) => (
+          <TouchableOpacity
+            key={cat}
+            style={[
+              styles.botonCategoria,
+              categoria === cat && styles.botonActivo,
+            ]}
+            onPress={() => setCategoria(cat)}
+          >
+            <Text style={styles.textoBoton}>{cat}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+
+      <TouchableOpacity style={styles.botonGuardar} onPress={handleGuardar}>
+        <Text style={styles.textoGuardar}>GUARDAR INGRESO →</Text>
+      </TouchableOpacity>
+
+      <Text style={styles.privacidad}>
+        En Finance Your Life, protegemos tu privacidad. Tus datos no serán
+        compartidos con terceros y solo se usarán para mejorar tu experiencia.
+      </Text>
+
+      {/* Modal */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalText}>¿Deseas ingresar otro ingreso?</Text>
+
+            <TouchableOpacity
+              style={styles.modalButton}
+              onPress={() => {
+                setModalVisible(false);
+                setMonto('');
+                setCategoria('');
+              }}
+            >
+              <Text style={styles.modalButtonText}>Aceptar</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.modalButton, { backgroundColor: '#ccc' }]}
+              onPress={() => {
+                setModalVisible(false);
+                navigation.navigate('Gastos');
+              }}
+            >
+              <Text style={styles.modalButtonText}>Cancelar</Text>
+            </TouchableOpacity>
           </View>
         </View>
-      ))}
-
-      <TouchableOpacity
-        className="bg-[#F59390] py-3 rounded-xl mb-4 items-center"
-        onPress={handleAddIncome}
-      >
-        <Text className="text-white font-bold">+ ¿AÑADIR OTRO INGRESO?</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        className="bg-white py-3 rounded-xl items-center flex-row justify-center"
-        onPress={handleSave}
-      >
-        <Text className="font-semibold text-black mr-2">GUARDAR INGRESO</Text>
-        <Ionicons name="arrow-forward" size={20} color="black" />
-      </TouchableOpacity>
-
-      <Text className="text-white text-xs mt-6">
-        En Finance Your Life, protegemos tu privacidad. Tus datos no serán compartidos con terceros y solo se usarán para mejorar tu experiencia.
-      </Text>
-    </ScrollView>
+      </Modal>
+    </View>
   );
 };
 
-export default IncomeForm;
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#5271FF',
+    flex: 1,
+    padding: 24,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
+  header: {
+    backgroundColor: '#fff',
+    padding: 16,
+    borderRadius: 16,
+    width: '100%',
+    marginBottom: 32,
+    alignItems: 'center',
+  },
+  saludo: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#000',
+  },
+  titulo: {
+    fontSize: 28,
+    color: '#fff',
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  input: {
+    backgroundColor: '#fff',
+    width: '100%',
+    padding: 12,
+    borderRadius: 10,
+    marginBottom: 24,
+    fontSize: 16,
+  },
+  subtitulo: {
+    color: '#fff',
+    fontSize: 16,
+    alignSelf: 'flex-start',
+    marginBottom: 12,
+  },
+  categorias: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    width: '100%',
+    marginBottom: 32,
+  },
+  botonCategoria: {
+    backgroundColor: '#819CFF',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 20,
+    marginBottom: 10,
+  },
+  botonActivo: {
+    backgroundColor: '#FFFFFF',
+  },
+  textoBoton: {
+    color: '#000',
+    fontWeight: '500',
+  },
+  botonGuardar: {
+    backgroundColor: '#fff',
+    borderRadius: 16,
+    paddingVertical: 14,
+    paddingHorizontal: 32,
+    marginBottom: 30,
+  },
+  textoGuardar: {
+    color: '#000',
+    fontWeight: 'bold',
+    fontSize: 14,
+  },
+  privacidad: {
+    color: '#fff',
+    fontSize: 12,
+    textAlign: 'center',
+    marginTop: 'auto',
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  modalContent: {
+    backgroundColor: '#fff',
+    padding: 30,
+    borderRadius: 16,
+    alignItems: 'center',
+    width: '80%',
+  },
+  modalText: {
+    fontSize: 18,
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  modalButton: {
+    backgroundColor: '#5271FF',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    marginVertical: 5,
+  },
+  modalButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+});
+
+export default Ingresos;

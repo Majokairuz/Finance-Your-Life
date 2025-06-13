@@ -153,8 +153,21 @@ def inicio():
         if not check_password_hash(usuario['Contraseña'], data['Contraseña']):
             return jsonify({"error": "Contraseña incorrecta"}), 401
         
-        # Retornar éxito y datos del usuario
-        return jsonify({"status": "success","message": "Inicio de sesión exitoso",}), 200
+        # Verificar si el usuario ya tiene ingresos registrados
+        ingresos_ref = db.collection('Usuarios').document(usuario_doc.id).collection('Ingresos').limit(1).stream()
+        tiene_ingresos = any(ingresos_ref)
+
+        destino = "dashboard" if tiene_ingresos else "Ingresos"
+
+        return jsonify({
+            "status": "success",
+            "message": "Inicio de sesión exitoso",
+            "redirigir_a": destino,
+            "usuario": {
+                "Nombre": usuario['Nombre'],
+                "Correo": usuario['Correo']
+            }
+        }), 200
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500

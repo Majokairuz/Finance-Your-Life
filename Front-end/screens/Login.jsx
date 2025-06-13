@@ -25,49 +25,61 @@ const Login = ({navigation}) => {
   const [Correo, setCorreo] = useState("")
   const [Contraseña, setContraseña] = useState("")
 
-    const handleLogin = async () =>{
-    // Validacion campos vacios
-    if (!Correo || !Contraseña){
-      Alert.alert('Error','Correo y Contraseña requeridos')
-      return
-      }
-
-      try{
-        const response = await axios.post ('http://192.168.1.39:8081/inicio',{
-          Correo:Correo,
-          Contraseña:Contraseña
-        })
-        
-        if (response.status === 200){
-          const { usuario } = response.data;
-          Alert.alert("Exito",`Bienvenido, ${usuario.Nombre}`)
-          navigation.navigate("MainApp")
-        }
-      }
-      catch (error){
-        if(error.response){
-          const { status, data }= error.response
-          const mensaje = data?.error || ""
-
-          if (status === 400 && mensaje.includes("Correo Invalido")) {
-              Alert.alert("Error","Correo Invalido")
-          } 
-          else if (status === 404 && mensaje.includes("Usuario no encontrado")) {
-              Alert.alert("Error","Usuario no encontrado")
-              navigation.navigate("Signin")
-          } 
-          else if (status === 401 && mensaje.includes("Contraseña incorrecta")) {
-              Alert.alert("Error","Contraseña incorrecta")
-          }
-          else{
-              Alert.alert("Error", mensaje || JSON.stringify(data))
-          }
-        } else {
-            Alert.alert("Error", error.message);
-            Alert.alert("Error inesperado:", error);
-        }
-      } 
+  const handleLogin = async () => {
+    if (!Correo || !Contraseña) {
+      Alert.alert("Error", "Correo y Contraseña requeridos");
+      return;
     }
+
+    try {
+      const response = await axios.post(
+        "http://192.168.0.30:8080/inicio",
+        {
+          Correo: Correo,
+          Contraseña: Contraseña,
+        },
+        { timeout: 5000 }
+      );
+
+      if (response.status === 200) {
+        const { usuario, redirigir_a } = response.data;
+
+        if (usuario?.Nombre) {
+          Alert.alert("Éxito", `Bienvenido, ${usuario.Nombre}`);
+        } else {
+          Alert.alert("Éxito", "Inicio de sesión exitoso");
+        }
+
+        if (redirigir_a === "dashboard") {
+  navigation.navigate("MainApp");
+} else if (redirigir_a === "Ingresos") {
+  navigation.navigate("Ingresos");
+} else {
+  Alert.alert("Error", "Ruta de redirección no reconocida.");
+}
+      }
+    } catch (error) {
+      if (error.code === "ECONNABORTED") {
+        Alert.alert("Error", "El servidor tardó demasiado en responder.");
+      } else if (error.response) {
+        const { status, data } = error.response;
+        const mensaje = data?.error || "";
+
+        if (status === 400 && mensaje.includes("Correo inválido")) {
+          Alert.alert("Error", "Correo inválido");
+        } else if (status === 404 && mensaje.includes("Usuario no encontrado")) {
+          Alert.alert("Error", "Usuario no encontrado");
+          navigation.navigate("Signin");
+        } else if (status === 401 && mensaje.includes("Contraseña incorrecta")) {
+          Alert.alert("Error", "Contraseña incorrecta");
+        } else {
+          Alert.alert("Error", mensaje || "Ocurrió un error inesperado");
+        }
+      } else {
+        Alert.alert("Error inesperado", error.message || "Algo salió mal");
+      }
+    }
+  };
   
   return (
     <SafeAreaProvider>

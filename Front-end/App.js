@@ -16,6 +16,8 @@ import Home from "./screens/Home";
 import Login from "./screens/Login";
 import Signin from "./screens/Signin";
 import MainApp from "./screens/MainApp";
+import Ingresos from "./screens/Ingresos";
+
 // CSS
 import "./global.css"
 
@@ -42,9 +44,9 @@ export default function App() {
     }
   }, [fontsLoaded]);
 
-  if (!fontsLoaded) {
-    return null;
-  }
+if (!fontsLoaded) {
+  return null;
+}
 
 
 
@@ -135,6 +137,9 @@ export default function App() {
             component={MainApp} 
             options={{ headerShown: false }} 
           />
+          <Stack.Screen name="Ingresos" 
+          component={Ingresos} 
+            options={{headerShown: false}} />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>

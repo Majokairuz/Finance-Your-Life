@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, ScrollView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import "../../global.css"
+import "../global.css"
 
 /**
  * Componente para ingresar uno o varios ingresos mensuales con NativeWind (Tailwind CSS para React Native).

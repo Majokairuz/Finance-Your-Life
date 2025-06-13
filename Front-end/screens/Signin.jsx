@@ -93,7 +93,7 @@ const SignIn = ({navigation}) => {
 
     try{
       //Envio de datos al backend
-      const response = await axios.post('http://192.168.1.39:8080/registro',{
+      const response = await axios.post('http://192.168.0.30:8080/registro',{
         Nombre: Nombre,
         Tipo_Documento: TipoDocumento,
         Numero_Documento: NumeroDocumento,
@@ -101,7 +101,7 @@ const SignIn = ({navigation}) => {
         Correo: Correo,
         Contraseña: Contraseña,
         ...(TipoDocumento === "NIT" && {Numero_Verificacion:NumeroVerificacion})
-      })
+      },{timeout: 5000});
       
       if (response.status === 201) {
         Alert.alert("Exito", "Tu usuario ha sido creado con exito, gracias por elegirnos.");

@@ -109,3 +109,8 @@ def enviar_correo(destinatario, nombre_usuario):
         print(" Error al enviar correo:", e)
         raise e
     
+def nombre_valido(nombre):
+    # Al menos 2 letras seguidas (no solo jjj, 111, etc.), solo letras y espacios
+    return bool(re.fullmatch(r"([A-Za-zÁÉÍÓÚáéíóúñÑ]{2,}\s?)+", nombre))
+
+

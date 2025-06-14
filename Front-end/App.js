@@ -17,6 +17,8 @@ import Login from "./screens/Login";
 import Signin from "./screens/Signin";
 import MainApp from "./screens/MainApp";
 import Ingresos from "./screens/Ingresos";
+import Gastos from "./screens/Gastos";
+
 
 // CSS
 import "./global.css"
@@ -139,6 +141,10 @@ if (!fontsLoaded) {
           />
           <Stack.Screen name="Ingresos" 
           component={Ingresos} 
+            options={{headerShown: false}} />
+
+        <Stack.Screen name="Gastos" 
+          component={Gastos} 
             options={{headerShown: false}} />
         </Stack.Navigator>
       </NavigationContainer>

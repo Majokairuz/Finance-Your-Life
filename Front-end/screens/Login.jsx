@@ -33,7 +33,7 @@ const Login = ({navigation}) => {
 
     try {
       const response = await axios.post(
-        "http://192.168.0.30:8080/inicio",
+        "http://192.168.1.6:8080/inicio",
         {
           Correo: Correo,
           Contraseña: Contraseña,

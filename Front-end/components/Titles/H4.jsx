@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     titulo_cuatro: {
         
         fontSize: 15, 
-        fontFamily: 'PoppinsRegular', 
+        fontFamily: 'Poppins', 
         fontWeight: '500', 
         wordWrap: 'break-word'
     }

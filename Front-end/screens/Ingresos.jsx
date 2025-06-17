@@ -1,38 +1,66 @@
-import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-  Alert,
-  Modal,
-} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useState } from 'react'
+import { View, Text, TextInput,  TouchableOpacity,  StyleSheet,  Alert,  Modal } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
+import { useUser } from '../context/UserContext'
 
 const Ingresos = () => {
-  const [monto, setMonto] = useState('');
-  const [categoria, setCategoria] = useState('');
-  const [modalVisible, setModalVisible] = useState(false);
-  const navigation = useNavigation();
+  const { usuario } = useUser()
 
-  const categorias = ['Salario', 'Comisiones', 'Freelance', 'Otros'];
+  const [Monto, setMonto] = useState('')
+  const [Categoria, setCategoria] = useState('')
+  const [ModalVisible, setModalVisible] = useState(false)
+  const [Loading, setLoading] = useState(false)
+
+  const navigation = useNavigation()
+  
+  //Reseteo de los inputs
+  const resetFormulario = () => {
+    setMonto("")
+    setCategoria("")
+    setModalVisible(false)
+    setLoading(false)
+  }
+
+  // // Eliminacion de informacion al retornar
+  // useEffect(() => {
+  //   const unsubscribe = navigation.addListener('focus', () => {
+  //     resetFormulario()
+  //   })
+  //   return unsubscribe
+  // }, [navigation])
+
+  const categorias = ['Salario', 'Comisiones', 'Freelance', 'Otros']
 
   const handleGuardar = () => {
-    if (!monto || !categoria) {
-      Alert.alert('Completa todos los campos');
+    if (Loading) return
+
+    if (!Monto || !Categoria) {
+      Alert.alert('Error','Completa todos los campos')
       return;
     }
+    setLoading(true)
+    setModalVisible(true) // Mostrar el modal de confirmación
 
-    // Aquí podrías guardar el ingreso a Firebase antes del modal
-
-    setModalVisible(true); // Mostrar el modal de confirmación
-  };
+  //   try{
+  //     const response= await axios.post('http://192.168.1.39:8080/registro',{
+  //       Monto:Monto,
+  //       Fecha:Fecha,
+  //       Categoria: Categoria,
+  //       Descripcion: Descripcion,
+  //       Recurrencia:Recurrencia,
+  //     },{timeout: 5000})
+  //   }
+  //   catch{
+  //     Alert.alert 
+  //   }
+  }
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.saludo}>👋 Hola, Majo</Text>
+        <Text style={styles.saludo}>
+          👋 Hola,<Text style={styles.nombre}>{usuario?.nombre}</Text>
+        </Text>
       </View>
 
       <Text style={styles.titulo}>Ingresos</Text>
@@ -44,7 +72,7 @@ const Ingresos = () => {
         value={monto}
         onChangeText={setMonto}
       />
-
+    
       <Text style={styles.subtitulo}>Selecciona una categoría:</Text>
       <View style={styles.categorias}>
         {categorias.map((cat) => (
@@ -52,7 +80,7 @@ const Ingresos = () => {
             key={cat}
             style={[
               styles.botonCategoria,
-              categoria === cat && styles.botonActivo,
+              Categoria === cat && styles.botonActivo,
             ]}
             onPress={() => setCategoria(cat)}
           >
@@ -61,7 +89,7 @@ const Ingresos = () => {
         ))}
       </View>
 
-      <TouchableOpacity style={styles.botonGuardar} onPress={handleGuardar}>
+      <TouchableOpacity style={styles.botonGuardar} onPress={handleGuardar} loading={Loading} disabled={Loading}>
         <Text style={styles.textoGuardar}>GUARDAR INGRESO →</Text>
       </TouchableOpacity>
 
@@ -74,7 +102,7 @@ const Ingresos = () => {
       <Modal
         animationType="slide"
         transparent={true}
-        visible={modalVisible}
+        visible={ModalVisible}
         onRequestClose={() => setModalVisible(false)}
       >
         <View style={styles.modalContainer}>
@@ -109,6 +137,7 @@ const Ingresos = () => {
 };
 
 const styles = StyleSheet.create({
+  
   container: {
     backgroundColor: '#5271FF',
     flex: 1,

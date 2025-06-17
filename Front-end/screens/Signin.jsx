@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { View, StyleSheet, Alert, ScrollView, Image } from 'react-native'
 import axios from 'axios'
 import { SafeAreaProvider } from "react-native-safe-area-context"
@@ -25,33 +25,36 @@ const SignIn = ({navigation}) => {
 
   // Formato para la fecha
   const formatDate = (date) => {
-  if (!date) return null;
-  const day = String(date.getDate()).padStart(2, "0");
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const year = date.getFullYear();
-  return `${day}-${month}-${year}`;
-  };
+  if (!date) return null
+  const day = String(date.getDate()).padStart(2, "0")
+  const month = String(date.getMonth() + 1).padStart(2, "0")
+  const year = date.getFullYear()
+  return `${day}-${month}-${year}`
+  }
+
   //Estados para los campos
   const [Nombre, setNombre] = useState("")
   const [TipoDocumento, setTipoDocumento] = useState("")
   const [NumeroDocumento, setNumeroDocumento] = useState("")
-  const [NumeroVerificacion, setNumeroVerificacion] = useState("");
+  const [NumeroVerificacion, setNumeroVerificacion] = useState("")
   const [FechaNacimiento, setFechaNacimiento] = useState("")
   const [Correo, setCorreo] = useState("")
   const [Contraseña, setContraseña] = useState("")
-  const [loading, setLoading] = useState(false);
+  const [Loading, setLoading] = useState(false)
 
+  //Reseteo de los inputs
   const resetFormulario = () => {
-        setNombre("")
-        setTipoDocumento("")
-        setNumeroDocumento("")
-        setNumeroVerificacion("")
-        setFechaNacimiento("")
-        setCorreo("")
-        setContraseña("")
-        setLoading(false)
-      }
+    setNombre("")
+    setTipoDocumento("")
+    setNumeroDocumento("")
+    setNumeroVerificacion("")
+    setFechaNacimiento("")
+    setCorreo("")
+    setContraseña("")
+    setLoading(false)
+  }
 
+  // Eliminacion de informacion dependiendo el cambio de documento
   useEffect(()=>{
     if (TipoDocumento === "NIT"){
       setFechaNacimiento("")
@@ -67,23 +70,27 @@ const SignIn = ({navigation}) => {
     }
   },[TipoDocumento])
 
+  // Eliminacion de informacion al retornar
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      resetFormulario();
-    });
-    return unsubscribe;
-    }, [navigation]);
+      resetFormulario()
+    })
+    return unsubscribe
+    }, [navigation])
+
 
   const handleRegister = async () => {
-    if (loading) return;
+    if (Loading) return
 
     // Validación de campos vacios
     if (!Nombre || !TipoDocumento || !NumeroDocumento || !Correo  || !Contraseña) {                    
       Alert.alert('Error', 'Todos los campos son obligatorios')
       return
     }
-    setLoading(true);
 
+    setLoading(true)
+    
+    
     if (TipoDocumento==="NIT"){
       if (!NumeroVerificacion){
         Alert.alert('Error', 'El numero de verificacion es obligatorio')
@@ -93,7 +100,7 @@ const SignIn = ({navigation}) => {
 
     try{
       //Envio de datos al backend
-      const response = await axios.post('http://192.168.1.6:8080/registro',{
+      const response = await axios.post('http://192.168.1.39:8080/registro',{
         Nombre: Nombre,
         Tipo_Documento: TipoDocumento,
         Numero_Documento: NumeroDocumento,
@@ -101,7 +108,7 @@ const SignIn = ({navigation}) => {
         Correo: Correo,
         Contraseña: Contraseña,
         ...(TipoDocumento === "NIT" && {Numero_Verificacion:NumeroVerificacion})
-      },{timeout: 5000});
+      },{timeout: 5000})
       
       if (response.status === 201) {
         Alert.alert("Exito", "Tu usuario ha sido creado con exito, gracias por elegirnos.");
@@ -113,29 +120,25 @@ const SignIn = ({navigation}) => {
     catch (error) {
       if(error.response){ 
         const { status, data }= error.response
-        const mensaje = data?.error || "";
+        const mensaje = data?.error || ""
 
         if (status === 400) {
           Alert.alert ("Error",mensaje)
-          console.log(mensaje)
         }
-        else if (status === 409) {
+          else if (status === 409) {
             Alert.alert("Error",mensaje)
-            console.log(mensaje) 
             navigation.navigate("Login")
-        } 
-        else if (status === 500) {
+          } 
+          else if (status === 500) {
             Alert.alert("Error",mensaje)
-            console.log(mensaje)
-        }
+          }
         else {
-        Alert.alert("Error", mensaje);
-        console.log(mensaje)
+          Alert.alert("Error", mensaje)
         }
       }
       else{
-        Alert.alert("Error", error.message);
-        console.error("Error inesperado:", error);
+        Alert.alert("Error")
+        console.error("Error inesperado:", error)
       }
     }finally{
       setLoading(false)
@@ -144,7 +147,9 @@ const SignIn = ({navigation}) => {
 
   return (
   <SafeAreaProvider>
+
     <ScrollView style={styles.container}>
+
       <View style={styles.container_1}>
         <H1 texto="Registrarse" color="#FFFFFF" />
         <Cuerpo
@@ -162,16 +167,17 @@ const SignIn = ({navigation}) => {
           contextMenuHidden={true}
           selectTextOnFocus={false}
         />
+
       <View 
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            gap: 10,
-            width:"100%"
-          }}
-          >
-          <SelectInput 
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          gap: 10,
+          width:"100%"
+        }}
+      >
+        <SelectInput 
           value={TipoDocumento}
           onValueChange={(value) => setTipoDocumento(value)}
           placeholder="Tipo Doc:"
@@ -181,15 +187,39 @@ const SignIn = ({navigation}) => {
             { label: "C.E", value: "C.E" },
             { label: "NIT", value: "NIT" }, 
           ]}/>
-        </View>
-      {TipoDocumento !== "NIT" ?(
+      </View>
+
+      {TipoDocumento !== "NIT" ? (
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          gap: 10,
+          width:"100%" 
+        }}
+      >
+        <Secundary
+          placeholder="N. Doc:"
+          value={NumeroDocumento}
+          onChangeText={ (text)=> {const numeros = text.replace (/[^0-9]/g, '')
+          setNumeroDocumento(numeros)}}
+          width="100%"
+          contextMenuHidden={true}
+          selectTextOnFocus={false}
+          keyboardType="numeric"
+        />
+      </View>
+      ):(
+      <>
         <View
           style={{
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
             gap: 10,
-            width:"100%" 
+            width:"100%",
+            marginTop:10
           }}
         >
           <Secundary
@@ -197,34 +227,12 @@ const SignIn = ({navigation}) => {
             value={NumeroDocumento}
             onChangeText={ (text)=> {const numeros = text.replace (/[^0-9]/g, '')
             setNumeroDocumento(numeros)}}
-            width="100%"
+            width="50%"
             contextMenuHidden={true}
             selectTextOnFocus={false}
             keyboardType="numeric"
           />
-          </View>):(
-            <>
-            <View
-             style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              gap: 10,
-              width:"100%",
-              marginTop:10
-            }}
-            >
-            <Secundary
-              placeholder="N. Doc:"
-              value={NumeroDocumento}
-              onChangeText={ (text)=> {const numeros = text.replace (/[^0-9]/g, '')
-              setNumeroDocumento(numeros)}}
-              width="50%"
-              contextMenuHidden={true}
-              selectTextOnFocus={false}
-              keyboardType="numeric"
-            />
-            <Secundary
+          <Secundary
             placeholder="N. Verificación:"
             value={NumeroVerificacion}
             onChangeText={ (text)=> {const numeros = text.replace (/[^0-9]/g, '')
@@ -234,9 +242,9 @@ const SignIn = ({navigation}) => {
             selectTextOnFocus={false}
             keyboardType="numeric"
           />
-            </View>
-            </>
-          )}
+        </View>
+        </>
+      )}
          
       {TipoDocumento !== "NIT" && (
         <Fecha
@@ -247,8 +255,8 @@ const SignIn = ({navigation}) => {
           width="100%"
           contextMenuHidden={true}
           selectTextOnFocus={false}
-          />
-          )}
+        />
+      )}
 
         <Secundary
           placeholder="Correo:"
@@ -271,11 +279,12 @@ const SignIn = ({navigation}) => {
           selectTextOnFocus={false}
         />
 
-
-        <CustomBoton texto="Registrarse" color="#FFFFFF" backgroundColor="#000000" onPress={handleRegister} loading={loading} disabled={loading}/>
+        <CustomBoton texto="Registrarse" color="#FFFFFF" backgroundColor="#000000" onPress={handleRegister} loading={Loading} disabled={Loading}/>
+        
         <View style={styles.o}>
           <Image source={O}></Image>
         </View>
+
         <View style={styles.iconos}>
           <View style={styles.icon}>
             <Image source={Facebook} style={styles.icono} />
@@ -284,6 +293,7 @@ const SignIn = ({navigation}) => {
             <Image source={Google} style={styles.icono} />
           </View>
         </View>
+        
         <View
           style={{
             display: "flex",
@@ -295,6 +305,7 @@ const SignIn = ({navigation}) => {
           <Cuerpo texto="Ya estas registrado? " fontSize={16} ></Cuerpo>
           <Cuerpo_Boton texto="Inicia Sesión" color="#5271FF" fontSize={16} onPress={() => navigation.navigate('Login')} ></Cuerpo_Boton>
         </View>
+
       </View>
     </ScrollView>
     </SafeAreaProvider>

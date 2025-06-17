@@ -1,16 +1,22 @@
 import {View, StyleSheet,Image,TouchableOpacity} from 'react-native';
 import Cuerpo from '../components/Titles/Cuerpo'
-import Inicio from '../components/Botones/Button_Icon_Right'
 import Logo from '../assets/Logo.png'
+import { useEffect } from 'react';
 
 const Welcome = ({navigation}) =>{
+    useEffect(()=>{
+        const timeout = setTimeout(()=>{
+            navigation.replace('Home')
+        }, 3000)
+        return () => clearTimeout
+    })
     return(
         <TouchableOpacity>
         <View style={styles.container}>
             <Image source={Logo} style={styles.logo} />
-            <Inicio texto="continuar" onPress={() => navigation.navigate('Home')}/>
+            {/* <Inicio texto="continuar" onPress={() => navigation.navigate('Home')}/> */}
             <View style={styles.titulo}>
-            <Cuerpo texto='Domina tus finanzas y alcanza tus metas con facilidad' color='#FFF' fontSize={16}></Cuerpo>
+            <Cuerpo texto='Domina tus finanzas y alcanza tus metas' color='#FFF' fontSize={16}></Cuerpo>
             </View>
 
         </View>
@@ -41,7 +47,6 @@ const styles = StyleSheet.create({
     },
     titulo:{
         width:'80%',
-
     }
 });
 export default Welcome;

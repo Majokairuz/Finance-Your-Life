@@ -2,7 +2,11 @@
   "expo": {
     "scheme": "0.0.0.0",
     "deepLinking": true,
-    "platforms": ["ios", "android","web"],
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
     "name": "FinanceYourLife",
     "slug": "financeyourlife",
     "version": "1.0.0",
@@ -27,6 +31,10 @@
     "web": {
       "favicon": "./assets/Favicon-Transparente.png",
       "bundler": "metro"
-    }
+    },
+    "plugins": [
+      "expo-font",
+      "expo-asset"
+    ]
   }
 }

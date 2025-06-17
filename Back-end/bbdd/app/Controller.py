@@ -10,7 +10,7 @@ import pytz
 auth_bp = Blueprint('auth', __name__)
 
 # Registro de usuarios
-@auth_bp.route('/registro', methods=['POST'])
+@auth_bp.route('/Registro', methods=['POST'])
 
 def registro():
     try:
@@ -19,13 +19,6 @@ def registro():
         
         # Obtiene los datos enviados por el cliente en formato JSON
         data = request.json
-        
-        # Define los campos obligatorios para el registro
-        requeridos_generales = ['Nombre', 'Tipo_Documento', 'Numero_Documento', 'Correo', 'Contraseña']
-        
-        # Verifica que todos los campos estén presentes y no estén vacíos
-        if not all(field in data and data[field] for field in requeridos_generales):
-           return jsonify({"Error": "Todos los campos son obligatorios."}), 400
         
         # Verificar que el nombre no sea por ejemplo jjj si no que sean nombres verdaderos
         if data ['Tipo_Documento'] != 'NIT': 
@@ -99,9 +92,6 @@ def registro():
         # Hashear la contraseña antes de guardarla
         data['Contraseña'] = generate_password_hash(data['Contraseña'])
         
-        # Verificar que el usuario si sea el que este realizando el registro 
-        # data['Verificado'] = False
-
         # Poner las primeras letras de cada nombre este en mayuscula 
         data['Nombre'] = data['Nombre'].strip().title()
 
@@ -116,58 +106,53 @@ def registro():
     
         # Agrega el nuevo usuario a la colección 'usuarios' de Firestore
         db.collection('Usuarios').add(data)
-        return jsonify({"status": "success", "message": "Registro exitoso."}), 201
+        return jsonify({"status": "success"}), 201
     
     except Exception as e:
         return jsonify({"error": str(e)}), 400
     
 
-
 #Inicio de Sesion
-@auth_bp.route('/inicio',methods=['POST'])
+@auth_bp.route('/Inicio',methods=['POST'])
 def inicio():
     try:
         # Current_app objeto global de Flask que te permite acceder al app original
         db = current_app.db
         # Obtiene los datos enviados por el cliente en formato JSON
         data=request.json
-        # Define los campos obligatorios para el registro
-        requeridos=['Correo', 'Contraseña']
-        # Verifica que todos los campos estén presentes y no estén vacíos
-        if not all(field in data and data[field] for field in requeridos):
-           return jsonify({"error": "Todos los campos son requeridos"}), 400
+        
         # Verificar correo valido
         if not correo_valido(data['Correo']):
             return jsonify({"error": "Correo inválido"}), 400
+        
         # Buscar si existe un usuario con ese correo
-        usuarios = db.collection('Usuarios').where(filter=FieldFilter('Correo', '==', data['Correo'] )).stream()
-        usuario_doc = next(usuarios, None)
+        usuarios = list(db.collection('Usuarios').where(filter=FieldFilter('Correo', '==', data['Correo'] )).stream()) 
 
         # Verificar que se halla encontrado un usuario
-        if not usuario_doc:
-            return jsonify({"error": "Usuario no encontrado"}), 404
+        if not usuarios:
+            return jsonify({"error": "Usuario no existente.Registrate"}), 404
         
-        usuario=usuario_doc.to_dict()
-
         # Verificar Contraseña
-        if not check_password_hash(usuario['Contraseña'], data['Contraseña']):
-            return jsonify({"error": "Contraseña incorrecta"}), 401
+        usuario_valido= [u for u in usuarios if check_password_hash(u.to_dict()['Contraseña'],data['Contraseña'])]
         
+        if len (usuario_valido) == 0:
+            return jsonify({"error":"Contraseña Incorrecta"}),401
+        if len (usuario_valido) > 1:
+            return jsonify({"error":"Varios usuarios con las mismas credenciales. Contactanos por correo."}),409
+        
+        usuario_doc=usuario_valido[0]
+        usuario= usuario_doc.to_dict()
         # Verificar si el usuario ya tiene ingresos registrados
-        ingresos_ref = db.collection('Usuarios').document(usuario_doc.id).collection('Ingresos').limit(1).stream()
-        tiene_ingresos = any(ingresos_ref)
+        ingresos = db.collection('Usuarios').document(usuario_doc.id).collection('Ingresos').limit(1).stream()
+        tiene_ingresos = any(ingresos)
 
-        destino = "dashboard" if tiene_ingresos else "Ingresos"
-
-        return jsonify({
-            "status": "success",
-            "message": "Inicio de sesión exitoso",
-            "redirigir_a": destino,
-            "usuario": {
-                "Nombre": usuario['Nombre'],
-                "Correo": usuario['Correo']
-            }
-        }), 200
+        destino = "MainApp" if tiene_ingresos else "Ingresos"
+        
+        return jsonify({ "status": "success", "redirigir_a": destino, "usuario":{ "Nombre": usuario ['Nombre'], "NumeroDocumento": usuario ['Numero_Documento'] } }), 200
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+
+# Guardar Ingresos
+auth_bp.route('/Ingresos',methods=['POST'])

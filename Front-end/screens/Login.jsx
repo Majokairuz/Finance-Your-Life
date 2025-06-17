@@ -1,9 +1,9 @@
 
-import {View,StyleSheet,Alert,Button,Image,ScrollView} from "react-native"
-import { useState } from "react"
-import { NavigationContainer } from '@react-navigation/native'
+import {View,StyleSheet,Alert,Image,ScrollView} from "react-native"
+import { useEffect, useState } from "react"
 import { SafeAreaProvider } from "react-native-safe-area-context"
 import axios from 'axios'
+import { useUser } from '../context/UserContext'
 // Input
 import Secundary from "../components/Inputs/InputSecundary"
 import Password from "../components/Inputs/Password"
@@ -13,77 +13,104 @@ import Cuerpo_Boton from "../components/Botones/Cuerpo_Boton"
 // Textos
 import H1 from "../components/Titles/H1"
 import Cuerpo from "../components/Titles/Cuerpo"
-// Iconos
-import { Ionicons } from "@expo/vector-icons"
+
 // Imagenes
 import Google from "../assets/Google.png"
 import Facebook from "../assets/Facebook.png"
 import O from "../assets/O.png"
 
 const Login = ({navigation}) => {
+
+  const { setUsuario } = useUser()
   //Estados para los campos
   const [Correo, setCorreo] = useState("")
   const [Contraseña, setContraseña] = useState("")
+  const [Loading, setLoading] = useState(false)
+  
+  //Reseteo de los inputs
+  const resetFormulario = () => {
+    setCorreo("")
+    setContraseña("")
+    setLoading(false)
+  }
 
+  // Eliminacion de informacion al retornar
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      resetFormulario()
+    })
+    return unsubscribe
+  }, [navigation])
+    
   const handleLogin = async () => {
+
+    if (Loading) return
+
+    // Validación de campos vacios
     if (!Correo || !Contraseña) {
-      Alert.alert("Error", "Correo y Contraseña requeridos");
-      return;
+      Alert.alert("Error", "Completa todos los campos")
+      return
     }
+
+    setLoading(true)
 
     try {
-      const response = await axios.post(
-        "http://192.168.1.6:8080/inicio",
-        {
+      const response = await axios.post("http://192.168.1.39:8080/Inicio",{
           Correo: Correo,
           Contraseña: Contraseña,
-        },
-        { timeout: 5000 }
-      );
+        },{ timeout: 5000 })
 
       if (response.status === 200) {
-        const { usuario, redirigir_a } = response.data;
-
-        if (usuario?.Nombre) {
-          Alert.alert("Éxito", `Bienvenido, ${usuario.Nombre}`);
-        } else {
-          Alert.alert("Éxito", "Inicio de sesión exitoso");
-        }
+        const { redirigir_a, usuario } = response.data
+        setUsuario({ nombre: usuario.Nombre })
+        resetFormulario()
 
         if (redirigir_a === "dashboard") {
-  navigation.navigate("MainApp");
-} else if (redirigir_a === "Ingresos") {
-  navigation.navigate("Ingresos");
-} else {
-  Alert.alert("Error", "Ruta de redirección no reconocida.");
-}
-      }
-    } catch (error) {
-      if (error.code === "ECONNABORTED") {
-        Alert.alert("Error", "El servidor tardó demasiado en responder.");
-      } else if (error.response) {
-        const { status, data } = error.response;
-        const mensaje = data?.error || "";
-
-        if (status === 400 && mensaje.includes("Correo inválido")) {
-          Alert.alert("Error", "Correo inválido");
-        } else if (status === 404 && mensaje.includes("Usuario no encontrado")) {
-          Alert.alert("Error", "Usuario no encontrado");
-          navigation.navigate("Signin");
-        } else if (status === 401 && mensaje.includes("Contraseña incorrecta")) {
-          Alert.alert("Error", "Contraseña incorrecta");
+          navigation.navigate("MainApp")
+        } else if (redirigir_a === "Ingresos") {
+          navigation.navigate("Ingresos")
         } else {
-          Alert.alert("Error", mensaje || "Ocurrió un error inesperado");
+          Alert.alert("Error", "Ruta de redirección no reconocida.")
         }
-      } else {
-        Alert.alert("Error inesperado", error.message || "Algo salió mal");
       }
+    } 
+    catch (error) {
+      if (error.response) {
+        const { status, data } = error.response
+        const mensaje = data?.error || ""
+
+        if (status === 400 ) {
+          Alert.alert("Error", mensaje)
+        } 
+          else if (status === 404 ) {
+            Alert.alert("Error",mensaje )
+            navigation.navigate("Signin")
+          } 
+          else if (status === 401 ) {
+            Alert.alert("Error", mensaje)
+          } 
+          else if (status === 409 ) {
+            Alert.alert("Error", mensaje)
+            navigation.navigate("Home")
+          } 
+        else {
+          Alert.alert("Error", mensaje )
+        }
+      } 
+      else {
+        Alert.alert("Error")
+        console.error("Error inesperado:", error)
+      }
+    } finally{
+      setLoading(false)
     }
-  };
+  }
   
   return (
-    <SafeAreaProvider>
+  <SafeAreaProvider>
+
     <ScrollView style={styles.container}>
+
       <View style={styles.container_1}>
         <H1 texto="Iniciar Sesión" color="#FFFFFF"></H1>
         <Cuerpo
@@ -92,7 +119,9 @@ const Login = ({navigation}) => {
           fontSize={17}
         ></Cuerpo>
       </View>
+
       <View style={styles.container_2}>
+        
         <Secundary
           placeholder="Correo:"
           value={Correo}
@@ -101,30 +130,39 @@ const Login = ({navigation}) => {
           autoCapitalize="none"
           width={"100%"}
         ></Secundary>
+
         <Password 
           placeholder="Contraseña:"
-          type={Contraseña}
+          value={Contraseña}
           onChangeText={setContraseña}
           SecureTextEntry={true}
           width={"100%"}
+          password={true}
         ></Password>
 
         <Cuerpo_Boton
           texto="Olvidaste tu contraseña?"
           color="#000000"
         ></Cuerpo_Boton>
-        <CustomButton texto="Iniciar Sesión" color="#FFFFFF" backgroundColor="#000000" onPress={handleLogin} ></CustomButton> 
+
+        <CustomButton texto="Iniciar Sesión" color="#FFFFFF" backgroundColor="#000000" onPress={handleLogin} loading={Loading} disabled={Loading}></CustomButton> 
+
         <View style={styles.o}>
           <Image source={O}></Image>
         </View>
+
         <View style={styles.iconos}>
+
           <View style={styles.icon}>
             <Image source={Facebook} style={styles.icono} />
           </View>
+
           <View style={styles.icon}>
             <Image source={Google} style={styles.icono} />
           </View>
+
         </View>
+        
         <View
           style={{
             display: "flex",
@@ -145,7 +183,7 @@ const Login = ({navigation}) => {
         </View>
       </View>
     </ScrollView>
-    </SafeAreaProvider>
+  </SafeAreaProvider>
   );
 };
 const styles = StyleSheet.create({

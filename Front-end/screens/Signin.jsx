@@ -100,7 +100,7 @@ const SignIn = ({navigation}) => {
 
     try{
       //Envio de datos al backend
-      const response = await axios.post('http://192.168.1.39:8080/registro',{
+      const response = await axios.post('http://192.168.137.239:8080/registro',{
         Nombre: Nombre,
         Tipo_Documento: TipoDocumento,
         Numero_Documento: NumeroDocumento,

@@ -1,125 +1,190 @@
-import React, { useState } from 'react';
-import {View,Text,StyleSheet,TextInput,TouchableOpacity,KeyboardAvoidingView,Platform,} from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-// Textos
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Alert,
+  Modal,
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
+// header
+import Header_3 from "../components/Header/Header_3";
+// Titulos
 import H1 from "../components/Titles/H1";
-import H5 from "../components/Titles/H5";
-import Header from '../components/Header/header';
-import InputSecondary from '../components/Inputs/InputSecundary';
-
+import H3 from "../components/Titles/H3";
+import H4 from "../components/Titles/H4";
+import Cuerpo from "../components/Titles/Cuerpo";
+// Inputs
+import Secundary from "../components/Inputs/InputSecundary";
 // Botones
-import Button_Icon_Right from '../components/Botones/Button_Icon_Right';
+import Custom_Button from "../components/Botones/CustomButton";
+import Button_Icon_Right from "../components/Botones/Button_Icon_Right";
 
-const GastoForm = ({ userName = "Majo" }) => {
-  const [descripcion, setDescripcion] = useState('');
-  const [monto, setMonto] = useState('');
-
+// Formato de moneda
+const formatearMoneda = (valor) => {
+  const limpio = valor.replace(/\D/g, ""); // eliminar todo lo que no sea número
+  if (!limpio) return "";
+  return `$ ${new Intl.NumberFormat("es-CO").format(parseInt(limpio))}`;
+};
+// Categorias
+const Gastos = () => {
+  const [monto, setMonto] = useState("");
+  const [Descripción, setDescripción] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
+  const navigation = useNavigation();
+  // Modal
   const handleGuardar = () => {
-    // Aquí puedes manejar el guardado del gasto
-    console.log({ descripcion, monto });
+    if (!monto || !Descripción) {
+      Alert.alert("Completa todos los campos");
+      return;
+    }
+
+    // Aquí podrías guardar el ingreso a Firebase antes del modal
+
+    setModalVisible(true); // Mostrar el modal de confirmación
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
-      style={styles.container}
-    >
-      {/* Saludo */}
-     <Header texto={"Usuario"}></Header>
+    <View style={styles.container}>
+      <Header_3 texto={"majo"}></Header_3>
+      <View style={styles.container_2}>
+        <H1 texto={"Gastos"} color={"#FFFFFF"}></H1>
 
-      {/* Título */}
-      <H1 texto={"Gastos"}></H1>
+        <Secundary
+          placeholder="Monto mensual: $"
+          keyboardType="numeric"
+          value={formatearMoneda(monto)}
+          onChangeText={(texto) => setMonto(texto.replace(/\D/g, ""))}
+          width={"100%"}
+        />
+        <Secundary
+          placeholder={"Descripción"}
+          value={Descripción}
+          onChangeText={(texto) => setDescripción(texto)}
+          width={"100%"}
+        />
 
-      {/* Formulario */}
-      <InputSecondary
-        placeholder="Descripción del gasto:"
-        placeholderTextColor="#999"
-        value={descripcion}
-        onChangeText={setDescripcion}
-      />
+        <Button_Icon_Right texto={"Guardar Gasto"} onPress={handleGuardar} />
 
-      {/* Selector genérico */}
-      <View style={styles.circleSelector} />
+        <Cuerpo
+          texto={
+            "En Finance Your Life, protegemos tu privacidad. Tus datos no serán compartidos con terceros y solo se usarán para mejorar tu experiencia."
+          }
+          color={"#FFFFFF"}
+        />
+      </View>
 
-      <InputSecondary
-        placeholder="Monto del gasto:"
-        placeholderTextColor="#999"
-        keyboardType="numeric"
-        value={monto}
-        onChangeText={setMonto}
-      />
+      {/* Modal */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <H3 texto={"¿Deseas ingresar otro Gasto?"}></H3>
+            <View
+              style={[
+                {
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  width: "100%",
+                  gap: 10,
+                  marginTop: 30,
+                },
+              ]}
+            >
+              <Custom_Button
+                onPress={() => {
+                  setModalVisible(false);
+                  setMonto("");
+                  setCategoria("");
+                }}
+                texto={"Aceptar"}
+                width={"50%"}
+              />
 
-      {/* Botón */}
-      <Button_Icon_Right texto={'Continuar'}></Button_Icon_Right>
-
-      {/* Texto de privacidad */}
-      <H5 texto={"En Finance Your Life, protegemos tu privacidad. Tus datos no serán compartidos con terceros y solo se usarán para mejorar tu experiencia."}></H5>
-    </KeyboardAvoidingView>
+              <Custom_Button
+                onPress={() => {
+                  setModalVisible(false);
+                  navigation.navigate("Gastos");
+                }}
+                texto={"Cancelar"}
+                backgroundColor={"#000000"}
+                color={"#FFFFFF"}
+                width={"50%"}
+              />
+            </View>
+          </View>
+        </View>
+      </Modal>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: "#5271FF",
     flex: 1,
-    backgroundColor: '#5271FF',
-    padding: 20,
-    justifyContent: 'flex-start',
+    justifyContent: "flex-start",
+    alignItems: "center",
   },
-  header: {
-    alignItems: 'center',
-    marginBottom: 20,
+  container_2: {
+    width: "100%",
+    height: "80%",
+    paddingTop: 30,
+    paddingBottom: 20,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingLeft: 20,
+    paddingRight: 20,
   },
-  saludo: {
+
+  categoriasContainer: {
+    width: "100%",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    marginBottom: 32,
+    gap: 10,
+  },
+  modalContainer: {
+    width: "100%",
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.5)",
+  },
+  modalContent: {
+    backgroundColor: "#fff",
+    padding: 30,
+    borderRadius: 16,
+    alignItems: "center",
+    width: "95%",
+  },
+  modalText: {
     fontSize: 18,
-    color: '#000',
-    backgroundColor: '#fff',
-    paddingVertical: 4,
-    paddingHorizontal: 12,
-    borderRadius: 8,
+    marginBottom: 20,
+    textAlign: "center",
   },
-  title: {
-    fontSize: 24,
-    color: '#fff',
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginVertical: 10,
-  },
-  input: {
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    padding: 12,
-    fontSize: 16,
-    marginVertical: 10,
-  },
-  circleSelector: {
-    alignSelf: 'center',
-    width: 70,
-    height: 70,
-    backgroundColor: '#ccc',
-    borderRadius: 35,
-    marginVertical: 10,
-  },
-  button: {
-    flexDirection: 'row',
-    backgroundColor: '#fff',
-    borderRadius: 20,
-    paddingVertical: 14,
+  modalButton: {
+    backgroundColor: "#5271FF",
+    paddingVertical: 10,
     paddingHorizontal: 20,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: 20,
+    borderRadius: 8,
+    marginVertical: 5,
   },
-  buttonText: {
-    fontWeight: 'bold',
-    color: '#000',
-    fontSize: 14,
-  },
-  privacyText: {
-    fontSize: 11,
-    color: '#fff',
-    marginTop: 30,
-    textAlign: 'center',
+  modalButtonText: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 16,
   },
 });
 
-export default GastoForm;
+export default Gastos;

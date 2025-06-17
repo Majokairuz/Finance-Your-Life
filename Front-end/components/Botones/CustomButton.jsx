@@ -1,9 +1,9 @@
 import {TouchableOpacity, Text, View, StyleSheet, ActivityIndicator} from 'react-native';
 
-const BotonPrimary = ({texto, onPress, title, loading, disabled,color,backgroundColor}) => {
+const BotonPrimary = ({texto, onPress, title, loading, disabled,color,backgroundColor,width}) => {
     const isDisabled = disabled || loading;
     return(
-        <TouchableOpacity onPress={onPress} disabled={isDisabled} style={[styles.primary,{backgroundColor: backgroundColor || '#5271FF'}]}>
+        <TouchableOpacity onPress={onPress} disabled={isDisabled} style={[styles.primary,{backgroundColor: backgroundColor || '#5271FF'}, {width: width || '100%'}]}>
             {loading ? (<ActivityIndicator color={color || '#FFFFFF'}/>):(<Text style={[styles.texto, {color: color || '#FFFFFF'}]}>{texto}</Text>)}
         </TouchableOpacity>
     )

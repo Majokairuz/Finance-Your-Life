@@ -55,7 +55,7 @@ const Login = ({navigation}) => {
     setLoading(true)
 
     try {
-      const response = await axios.post("http://192.168.137.239:8080/Inicio",{
+      const response = await axios.post("hhttp://192.168.1.6:8080",{
           Correo: Correo,
           Contraseña: Contraseña,
         },{ timeout: 5000 })

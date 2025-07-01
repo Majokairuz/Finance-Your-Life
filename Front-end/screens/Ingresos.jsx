@@ -60,7 +60,7 @@ const Ingresos = () => {
     setModalVisible(true) // Mostrar el modal de confirmación
 
   //   try{
-  //     const response= await axios.post('http://192.168.1.39:8080/registro',{
+  //     const response= await axios.post('http://192.168.1.6:8080',{
   //       Monto:Monto,
   //       Fecha:Fecha,
   //       Categoria: Categoria,

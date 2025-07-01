@@ -3,10 +3,11 @@ import { Ionicons } from "@expo/vector-icons";
 
 
 
-const Header_3 = ({texto}) => {
+const Header_4 = ({texto}) => {
     return(
         <View style={styles.container}>
-            <Text style={styles.texto}>👋 Hola, {texto}</Text>
+            <Ionicons name="person-circle-outline" size={40} color={'#000'}/>
+            <Text style={styles.texto}> {texto}</Text>
         </View>
 
     )
@@ -16,7 +17,7 @@ const styles = StyleSheet.create(
         container:{
             width:'100%',
             height: 'auto',
-            paddingTop: 80,
+            paddingTop: 40,
             display: 'flex',
             flexDirection: 'column',
             gap: 10,
@@ -49,4 +50,4 @@ const styles = StyleSheet.create(
           }
     }
 );
-export default Header_3;
+export default Header_4;

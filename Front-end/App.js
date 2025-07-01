@@ -12,13 +12,14 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 // Fuentes
 import { useFonts } from "expo-font";
 // Pantallas
-import Bienvenida from "./screens/Bienvenida";
-import Home from "./screens/Home";
-import Login from "./screens/Login";
-import Signin from "./screens/Signin";
-import MainApp from "./screens/MainApp";
-import Ingresos from "./screens/Ingresos";
-import Gastos from "./screens/Gastos";
+  import Bienvenida from "./screens/Bienvenida";
+  import Home from "./screens/Home";
+  import Login from "./screens/Login";
+  import Signin from "./screens/Signin";
+  import MainApp from "./screens/MainApp";
+  import Ingresos from "./screens/Ingresos";
+  import Gastos from "./screens/Gastos";
+import Configuracion from "./screens/User/Configuracion";
 // CSS
 import "./global.css"
 
@@ -43,50 +44,51 @@ if (!fontsLoaded) {
 }
 
   return (
-  <UserProvider>
-    <SafeAreaProvider onLayout={onLayoutRootView}>
-      <NavigationContainer>
-        <StatusBar style="auto"/>
-        <Stack.Navigator initialRouteName="Bienvenida">
-          <Stack.Screen
-            name="Bienvenida"
-            component={Bienvenida}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Home"
-            component={Home}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Login"
-            component={Login}
-            options={{ headerShown: false}}
-          />
-          <Stack.Screen
-            name="Signin"
-            component={Signin}
-            options={{ headerShown: false }}
-          />
-          {/* Cuando logueas exitosamente, vas a MainApp */}
-          <Stack.Screen 
-            name="MainApp" 
-            component={MainApp} 
-            options={{ headerShown: false }} 
-          />
-          <Stack.Screen name="Ingresos" 
-            component={Ingresos} 
-            options={{headerShown: false}} 
-          />
+  // <UserProvider>
+  //   <SafeAreaProvider onLayout={onLayoutRootView}>
+  //     <NavigationContainer>
+  //       <StatusBar style="auto"/>
+  //       <Stack.Navigator initialRouteName="Bienvenida">
+  //         <Stack.Screen
+  //           name="Bienvenida"
+  //           component={Bienvenida}
+  //           options={{ headerShown: false }}
+  //         />
+  //         <Stack.Screen
+  //           name="Home"
+  //           component={Home}
+  //           options={{ headerShown: false }}
+  //         />
+  //         <Stack.Screen
+  //           name="Login"
+  //           component={Login}
+  //           options={{ headerShown: false}}
+  //         />
+  //         <Stack.Screen
+  //           name="Signin"
+  //           component={Signin}
+  //           options={{ headerShown: false }}
+  //         />
+  //         {/* Cuando logueas exitosamente, vas a MainApp */}
+  //         <Stack.Screen 
+  //           name="MainApp" 
+  //           component={MainApp} 
+  //           options={{ headerShown: false }} 
+  //         />
+  //         <Stack.Screen name="Ingresos" 
+  //           component={Ingresos} 
+  //           options={{headerShown:false}} 
+  //         />
 
-          <Stack.Screen name="Gastos" 
-            component={Gastos} 
-            options={{headerShown: false}} 
-          />
-          </Stack.Navigator>
+  //         <Stack.Screen name="Gastos" 
+  //           component={Gastos} 
+  //           options={{headerShown: false}} 
+  //         />
+  //         </Stack.Navigator>
 
-      </NavigationContainer>
-    </SafeAreaProvider>
-  </UserProvider>
+  //     </NavigationContainer>
+  //   </SafeAreaProvider>
+  // </UserProvider>
+  <Configuracion />
   );
 }
